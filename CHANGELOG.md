@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/SHU-red/GopherLetics/compare/v1.0.3...v1.0.4) (2024-01-08)
+
+
+### Bug Fixes
+
+* test-Commit to get actions-build working ([9a3d5c9](https://github.com/SHU-red/GopherLetics/commit/9a3d5c9b2484a290f1dad460a6eff23d44ed11d6))
+
 ## [1.0.3](https://github.com/SHU-red/GopherLetics/compare/v1.0.2...v1.0.3) (2024-01-08)
 
 
