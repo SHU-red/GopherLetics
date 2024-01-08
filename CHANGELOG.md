@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.12](https://github.com/SHU-red/GopherLetics/compare/v1.0.11...v1.0.12) (2024-01-08)
+
+
+### Bug Fixes
+
+* not specify go version ([905e700](https://github.com/SHU-red/GopherLetics/commit/905e700007475ab4f867a53807d2ebec19c09887))
+
 ## [1.0.11](https://github.com/SHU-red/GopherLetics/compare/v1.0.10...v1.0.11) (2024-01-08)
 
 
