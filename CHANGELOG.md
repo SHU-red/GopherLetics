@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/SHU-red/GopherLetics/compare/v1.0.1...v1.0.2) (2024-01-08)
+
+
+### Bug Fixes
+
+* test to get automatic build to work ([d27635f](https://github.com/SHU-red/GopherLetics/commit/d27635f984b2904f7d440f9004de694cccc4ed07))
+
 ## [1.0.1](https://github.com/SHU-red/GopherLetics/compare/v1.0.0...v1.0.1) (2024-01-08)
 
 
