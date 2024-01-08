@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.29](https://github.com/SHU-red/GopherLetics/compare/v1.0.28...v1.0.29) (2024-01-08)
+
+
+### Bug Fixes
+
+* remove release-tags ([ee4ad43](https://github.com/SHU-red/GopherLetics/commit/ee4ad4317b895e9c0d963b88d620d434c23fe9c9))
+
 ## [1.0.28](https://github.com/SHU-red/GopherLetics/compare/v1.0.27...v1.0.28) (2024-01-08)
 
 
