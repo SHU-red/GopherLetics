@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.11](https://github.com/SHU-red/GopherLetics/compare/v1.0.10...v1.0.11) (2024-01-08)
+
+
+### Bug Fixes
+
+* delete bad lines from example for build workflow ([87e01b9](https://github.com/SHU-red/GopherLetics/commit/87e01b988da57e4dcd04540da237bf094114c4b0))
+
 ## [1.0.10](https://github.com/SHU-red/GopherLetics/compare/v1.0.9...v1.0.10) (2024-01-08)
 
 
