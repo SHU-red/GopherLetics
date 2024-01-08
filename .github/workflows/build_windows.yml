@@ -6,11 +6,11 @@ permissions:
   contents: write
   packages: write
 
-name: build_windwos
+name: build_windows
 
 jobs:
   release-windows-amd64:
-    name: release linux/amd64 X11
+    name: release windows/amd64
     runs-on: winndows-latest
     steps:
       - uses: actions/checkout@v3
