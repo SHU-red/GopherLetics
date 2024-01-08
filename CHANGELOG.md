@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.18](https://github.com/SHU-red/GopherLetics/compare/v1.0.17...v1.0.18) (2024-01-08)
+
+
+### Bug Fixes
+
+* adding libxcursor-dev to pre-build ([a68546d](https://github.com/SHU-red/GopherLetics/commit/a68546d134f20a6d2c53e762f93870a9df986560))
+
 ## [1.0.17](https://github.com/SHU-red/GopherLetics/compare/v1.0.16...v1.0.17) (2024-01-08)
 
 
