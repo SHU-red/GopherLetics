@@ -1,8 +1,12 @@
-on: [release]
+on:
+  release:
+    types: [published]
 
 permissions:
   contents: write
   packages: write
+
+name: build
 
 jobs:
   release-linux-amd64:
