@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.20](https://github.com/SHU-red/GopherLetics/compare/v1.0.19...v1.0.20) (2024-01-08)
+
+
+### Bug Fixes
+
+* wildcard install libx libraries ([9c7df2a](https://github.com/SHU-red/GopherLetics/commit/9c7df2a35b513aa56183d3afc03f82760319f82e))
+
 ## [1.0.19](https://github.com/SHU-red/GopherLetics/compare/v1.0.18...v1.0.19) (2024-01-08)
 
 
