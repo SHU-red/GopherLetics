@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.19](https://github.com/SHU-red/GopherLetics/compare/v1.0.18...v1.0.19) (2024-01-08)
+
+
+### Bug Fixes
+
+* adding libxrandr-dev ([b97d2b2](https://github.com/SHU-red/GopherLetics/commit/b97d2b283a27dc7f2383b007c2c91e06dd045062))
+
 ## [1.0.18](https://github.com/SHU-red/GopherLetics/compare/v1.0.17...v1.0.18) (2024-01-08)
 
 
