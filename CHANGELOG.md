@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.8](https://github.com/SHU-red/GopherLetics/compare/v1.0.7...v1.0.8) (2024-01-08)
+
+
+### Bug Fixes
+
+* also use PAT for release-please ([9e985bd](https://github.com/SHU-red/GopherLetics/commit/9e985bd18adfb3b493f249b2d1d793e53b5cbabb))
+* minor change to test build via action ([b0a052e](https://github.com/SHU-red/GopherLetics/commit/b0a052ed5cd839a75315c314368756e227d9d390))
+
 ## [1.0.7](https://github.com/SHU-red/GopherLetics/compare/v1.0.6...v1.0.7) (2024-01-08)
 
 
