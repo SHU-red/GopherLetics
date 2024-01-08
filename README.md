@@ -16,6 +16,9 @@ This project has to be seen as
 - [ ] More settings
 - [ ] ...
 
+## ChangeLog
+See [CHANGELOG.md](https://github.com/SHU-red/GopherLetics/blob/main/CHANGELOG.md)
+
 ## Gui/Usage
 
 ## Contribute
