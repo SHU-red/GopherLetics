@@ -9,37 +9,27 @@ permissions:
 name: build
 
 jobs:
-  build_release:
-    name: Build Release
+  releases-matrix:
+    name: Release Go Binary
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        include:
-          - os: ubuntu-latest
-            release_suffix: ubuntu
-          - os: macos-latest
-            release_suffix: mac
-          - os: windows-latest
-            release_suffix: windows
-    runs-on: ${{ matrix.os }}
+        # build and publish in parallel: linux/386, linux/amd64, linux/arm64, windows/386, windows/amd64, darwin/amd64, darwin/arm64
+        goos: [linux, windows, darwin]
+        goarch: ["386", amd64, arm64]
+        exclude:
+          - goarch: "386"
+            goos: darwin
+          - goarch: arm64
+            goos: windows
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Run Linux Build
-        if: matrix.os == 'ubuntu-latest'
-        run: echo "Ubuntu Latest" > release_ubuntu
-
-      - name: Run Mac Build
-        if: matrix.os == 'macos-latest'
-        run: echo "MacOS Latest" > release_mac
-
-      - name: Run Windows Build
-        if: matrix.os == 'windows-latest'
-        run: echo "Windows Latest" > release_windows
-
-      - name: Release
-        uses: softprops/action-gh-release@v1
+      - uses: actions/checkout@v3
+      - uses: wangyoucao577/go-release-action@v1
         with:
-          token: ${{ secrets.BUILD }}
-          files: release_${{ matrix.release_suffix }}
+          github_token: ${{ secrets.BUILD }}
+          goos: ${{ matrix.goos }}
+          goarch: ${{ matrix.goarch }}
+          goversion: "https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz"
+          project_path: "./cmd/test-binary"
+          binary_name: "test-binary"
+          extra_files: LICENSE README.md
