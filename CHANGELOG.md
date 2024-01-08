@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.24](https://github.com/SHU-red/GopherLetics/compare/v1.0.23...v1.0.24) (2024-01-08)
+
+
+### Bug Fixes
+
+* install dependencies as defined at fyne ([537d365](https://github.com/SHU-red/GopherLetics/commit/537d36570751f5a64cc0221c0dbb75ba19f49d45))
+
 ## [1.0.23](https://github.com/SHU-red/GopherLetics/compare/v1.0.22...v1.0.23) (2024-01-08)
 
 
