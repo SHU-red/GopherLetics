@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.22](https://github.com/SHU-red/GopherLetics/compare/v1.0.21...v1.0.22) (2024-01-08)
+
+
+### Bug Fixes
+
+* ignore missing packages ([abb28bb](https://github.com/SHU-red/GopherLetics/commit/abb28bb65c175cac4d94bd412b2010f12495708b))
+
 ## [1.0.21](https://github.com/SHU-red/GopherLetics/compare/v1.0.20...v1.0.21) (2024-01-08)
 
 
