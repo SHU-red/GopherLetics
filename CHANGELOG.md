@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.16](https://github.com/SHU-red/GopherLetics/compare/v1.0.15...v1.0.16) (2024-01-08)
+
+
+### Bug Fixes
+
+* remove sudo from precommand ([ffdef6e](https://github.com/SHU-red/GopherLetics/commit/ffdef6e3d1337cbb92a7de3677ac2de8e77492ac))
+
 ## [1.0.15](https://github.com/SHU-red/GopherLetics/compare/v1.0.14...v1.0.15) (2024-01-08)
 
 
