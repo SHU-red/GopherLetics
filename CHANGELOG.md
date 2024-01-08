@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.14](https://github.com/SHU-red/GopherLetics/compare/v1.0.13...v1.0.14) (2024-01-08)
+
+
+### Bug Fixes
+
+* try only to build linux amd ([7853f99](https://github.com/SHU-red/GopherLetics/commit/7853f997039ad0ac28c912b189bbb2eb60c5e388))
+
 ## [1.0.13](https://github.com/SHU-red/GopherLetics/compare/v1.0.12...v1.0.13) (2024-01-08)
 
 
