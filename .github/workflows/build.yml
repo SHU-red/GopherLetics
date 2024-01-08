@@ -39,4 +39,4 @@ jobs:
           github_token: ${{ secrets.BUILD }}
           goos: linux
           goarch: amd64
-          pre_command: "apt install libx11-dev"
+          pre_command: "apt-get -y update ; apt-get -y install libx11-dev"
