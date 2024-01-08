@@ -8,7 +8,7 @@ This project has to be seen as
 - No focus on stability/security/architecture
 
 ## What i wanted to learn
-`golang` `fyne` `GitHub Actions` `GitHub Releases` `GitHub Changelog` `commitizen` `Go Release Build` `Release-Please`
+`golang` `fyne` `GitHub Actions` `GitHub Releases` `GitHub Changelog` `commitizen` `Go Release Build` `Release-Please` `GitHub Secrets`
 
 ## ToDo
 - [ ] Working base
