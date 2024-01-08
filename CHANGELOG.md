@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.7](https://github.com/SHU-red/GopherLetics/compare/v1.0.6...v1.0.7) (2024-01-08)
+
+
+### Bug Fixes
+
+* rename bulid yaml to yml ([9f2d7c8](https://github.com/SHU-red/GopherLetics/commit/9f2d7c8936d45dfa29bf7b10a68550f17199187c))
+
 ## [1.0.6](https://github.com/SHU-red/GopherLetics/compare/v1.0.5...v1.0.6) (2024-01-08)
 
 
