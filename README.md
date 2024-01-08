@@ -20,7 +20,7 @@ This project has to be seen as
 See [CHANGELOG.md](https://github.com/SHU-red/GopherLetics/blob/main/CHANGELOG.md)
 
 ## Gui/Usage
-#TODO Image
+![](./assets/gui_main.png)
 
 #TODO Rough description how to use
 
