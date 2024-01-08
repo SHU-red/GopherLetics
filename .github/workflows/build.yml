@@ -9,63 +9,37 @@ permissions:
 name: build
 
 jobs:
-  release-linux-amd64:
-    name: release linux/amd64
-    runs-on: ubuntu-latest
+  build_release:
+    name: Build Release
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            release_suffix: ubuntu
+          - os: macos-latest
+            release_suffix: mac
+          - os: windows-latest
+            release_suffix: windows
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: wangyoucao577/go-release-action@v1
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Linux Build
+        if: matrix.os == 'ubuntu-latest'
+        run: echo "Ubuntu Latest" > release_ubuntu
+
+      - name: Run Mac Build
+        if: matrix.os == 'macos-latest'
+        run: echo "MacOS Latest" > release_mac
+
+      - name: Run Windows Build
+        if: matrix.os == 'windows-latest'
+        run: echo "Windows Latest" > release_windows
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
         with:
-          github_token: ${{ secrets.BUILD }}
-          goos: linux
-          goarch: amd64
-  release-linux-386:
-    name: release linux/386
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: wangyoucao577/go-release-action@v1
-        with:
-          github_token: ${{ secrets.BUILD }}
-          goos: linux
-          goarch: 386
-  release-windows-amd64:
-    name: release windows/amd64
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: wangyoucao577/go-release-action@v1
-        with:
-          github_token: ${{ secrets.BUILD }}
-          goos: windows
-          goarch: amd64
-  release-windows-386:
-    name: release windows/386
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: wangyoucao577/go-release-action@v1
-        with:
-          github_token: ${{ secrets.BUILD }}
-          goos: windows
-          goarch: 386
-  release-darwin-386:
-    name: release darwin/386
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: wangyoucao577/go-release-action@v1
-        with:
-          github_token: ${{ secrets.BUILD }}
-          goos: darwin
-          goarch: 386
-  release-darwin-amd64:
-    name: release darwin/amd64
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: wangyoucao577/go-release-action@v1
-        with:
-          github_token: ${{ secrets.BUILD }}
-          goos: darwin
-          goarch: amd64
+          token: ${{ secrets.BUILD }}
+          files: release_${{ matrix.release_suffix }}
