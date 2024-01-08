@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.13](https://github.com/SHU-red/GopherLetics/compare/v1.0.12...v1.0.13) (2024-01-08)
+
+
+### Bug Fixes
+
+* only build for linux ([56763ac](https://github.com/SHU-red/GopherLetics/commit/56763ac47cc5d3f2f779b4213cbc87e90e2ed992))
+
 ## [1.0.12](https://github.com/SHU-red/GopherLetics/compare/v1.0.11...v1.0.12) (2024-01-08)
 
 
