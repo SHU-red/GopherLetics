@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.27](https://github.com/SHU-red/GopherLetics/compare/v1.0.26...v1.0.27) (2024-01-08)
+
+
+### Bug Fixes
+
+* fixed Build instructions ([82f51c8](https://github.com/SHU-red/GopherLetics/commit/82f51c85a12abed1023a187608878e09e5f71901))
+
 ## [1.0.26](https://github.com/SHU-red/GopherLetics/compare/v1.0.25...v1.0.26) (2024-01-08)
 
 
