@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.9](https://github.com/SHU-red/GopherLetics/compare/v1.0.8...v1.0.9) (2024-01-08)
+
+
+### Bug Fixes
+
+* switching to action-gh for build ([25085cd](https://github.com/SHU-red/GopherLetics/commit/25085cde3fb271d8c7558e306c889a6cf45a32f9))
+
 ## [1.0.8](https://github.com/SHU-red/GopherLetics/compare/v1.0.7...v1.0.8) (2024-01-08)
 
 
