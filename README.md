@@ -22,9 +22,9 @@ See [CHANGELOG.md](https://github.com/SHU-red/GopherLetics/blob/main/CHANGELOG.m
 ## Gui/Usage
 ![](./assets/gui_main.png)
 
-- Timer  [Upper Left] showing the current countdown
-- Step List [Lower Left] shows the whole workout and highlights the current step
-- Exercise View [Right] shows details for the current and next exercise
+- **Timer**  [Upper Left] showing the current countdown
+- **Step List** [Lower Left] shows the whole workout and highlights the current step
+- **Exercise View** [Right] shows details for the current and next exercise
 
 ## Contribute
 Feel free to contribute, but keep in mind you are talking to a person which has never learned how to maintain a clean repository
