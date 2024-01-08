@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.17](https://github.com/SHU-red/GopherLetics/compare/v1.0.16...v1.0.17) (2024-01-08)
+
+
+### Bug Fixes
+
+* trying to install libx11-dev during build ([108f2d1](https://github.com/SHU-red/GopherLetics/commit/108f2d1dcd9cd38672f2a9f2d79906b6005e99ee))
+
 ## [1.0.16](https://github.com/SHU-red/GopherLetics/compare/v1.0.15...v1.0.16) (2024-01-08)
 
 
