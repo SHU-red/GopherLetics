@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.25](https://github.com/SHU-red/GopherLetics/compare/v1.0.24...v1.0.25) (2024-01-08)
+
+
+### Bug Fixes
+
+* add Linux-Wayland and Windows build to GitHub action ([d968df2](https://github.com/SHU-red/GopherLetics/commit/d968df2449a41f41a8279761f21169fc81577141))
+
 ## [1.0.24](https://github.com/SHU-red/GopherLetics/compare/v1.0.23...v1.0.24) (2024-01-08)
 
 
