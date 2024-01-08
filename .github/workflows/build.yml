@@ -39,4 +39,4 @@ jobs:
           github_token: ${{ secrets.BUILD }}
           goos: linux
           goarch: amd64
-          pre_command: "apt-get -y update ; apt-get -y upgrade ; apt-get -y -m install '^libx.*'"
+          pre_command: "apt-get -y update ; apt-get -y upgrade ; apt-get -y -m --no-install-recommends install '^libx.*'"
