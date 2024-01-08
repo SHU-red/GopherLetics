@@ -20,6 +20,9 @@ This project has to be seen as
 See [CHANGELOG.md](https://github.com/SHU-red/GopherLetics/blob/main/CHANGELOG.md)
 
 ## Gui/Usage
+#TODO Image
+
+#TODO Rough description how to use
 
 ## Contribute
 Feel free to contribute, but keep in mind you are talking to a person which has never learned how to maintain a clean repository
