@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5](https://github.com/SHU-red/GopherLetics/compare/v1.0.4...v1.0.5) (2024-01-08)
+
+
+### Bug Fixes
+
+* fix release.yaml to build via Action ([b5bfd74](https://github.com/SHU-red/GopherLetics/commit/b5bfd742e0fd4a47ee9da771d874aca2b96d323d))
+
 ## [1.0.4](https://github.com/SHU-red/GopherLetics/compare/v1.0.3...v1.0.4) (2024-01-08)
 
 
