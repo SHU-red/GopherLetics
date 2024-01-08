@@ -6,7 +6,7 @@ permissions:
   contents: write
   packages: write
 
-name: build_linux
+name: build_windwos
 
 jobs:
   release-windows-amd64:
@@ -22,5 +22,4 @@ jobs:
           github_token: ${{ secrets.BUILD }}
           goos: windows
           goarch: amd64
-          pre_command: "apt-get -y update ; apt-get -y upgrade ; apt-get -y  install libgl1-mesa-dev xorg-dev"
           binary_name: GopherLetics_Windows_AMD64
