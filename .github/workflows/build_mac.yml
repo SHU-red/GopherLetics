@@ -9,14 +9,15 @@ permissions:
 name: build_windows
 
 jobs:
-  release-windows-amd64:
-    name: release windows/amd64
-    runs-on: winndows-latest
+  release-mac:
+    name: release darwin/amd64
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.BUILD }}
-          goos: windows
+          goos: darwin
           goarch: amd64
-          binary_name: GopherLetics_Windows_AMD64
+          pre_command: "xcode-select --install"
+          binary_name: GopherLetics_Darwin_AMD64

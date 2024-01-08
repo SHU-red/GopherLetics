@@ -19,7 +19,6 @@ jobs:
           github_token: ${{ secrets.BUILD }}
           goos: linux
           goarch: amd64
-          release_tag: x11
           pre_command: "apt-get -y update ; apt-get -y upgrade ; apt-get -y  install libgl1-mesa-dev xorg-dev"
           binary_name: GopherLetics_Linux_AMD64_X11
   release-linux-amd64_wayland:
@@ -32,7 +31,6 @@ jobs:
           github_token: ${{ secrets.BUILD }}
           goos: linux
           goarch: amd64
-          release_tag: wayland
           pre_command: "apt-get -y update ; apt-get -y upgrade ; apt-get install -y libgl1-mesa-dev xorg-dev libwayland-dev"
           build_flags: -tags wayland
           binary_name: GopherLetics_Linux_AMD64_Wayland
