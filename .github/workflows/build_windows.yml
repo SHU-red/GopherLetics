@@ -1,0 +1,26 @@
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  packages: write
+
+name: build_linux
+
+jobs:
+  release-windows-amd64:
+    name: release linux/amd64 X11
+    runs-on: winndows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          check-latest: true
+      - uses: wangyoucao577/go-release-action@v1
+        with:
+          github_token: ${{ secrets.BUILD }}
+          goos: windows
+          goarch: amd64
+          pre_command: "apt-get -y update ; apt-get -y upgrade ; apt-get -y  install libgl1-mesa-dev xorg-dev"
+          binary_name: GopherLetics_Windows_AMD64
