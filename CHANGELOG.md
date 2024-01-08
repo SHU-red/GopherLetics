@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.23](https://github.com/SHU-red/GopherLetics/compare/v1.0.22...v1.0.23) (2024-01-08)
+
+
+### Bug Fixes
+
+* no install recommends ([3e331e8](https://github.com/SHU-red/GopherLetics/commit/3e331e802f72ecb8870db2b7aaf22fbdba693f97))
+
 ## [1.0.22](https://github.com/SHU-red/GopherLetics/compare/v1.0.21...v1.0.22) (2024-01-08)
 
 
