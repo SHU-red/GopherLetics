@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.26](https://github.com/SHU-red/GopherLetics/compare/v1.0.25...v1.0.26) (2024-01-08)
+
+
+### Bug Fixes
+
+* cleaned windows build ([24917cf](https://github.com/SHU-red/GopherLetics/commit/24917cfb6c2ae399740f0b111ad4b8517fd634c3))
+
 ## [1.0.25](https://github.com/SHU-red/GopherLetics/compare/v1.0.24...v1.0.25) (2024-01-08)
 
 
