@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.31](https://github.com/SHU-red/GopherLetics/compare/v1.0.30...v1.0.31) (2024-01-09)
+
+
+### Bug Fixes
+
+* adding packages to install for wayland ([0059daa](https://github.com/SHU-red/GopherLetics/commit/0059daaec31f9f2cdf4d90c4bde6d47f068de081))
+
 ## [1.0.30](https://github.com/SHU-red/GopherLetics/compare/v1.0.29...v1.0.30) (2024-01-09)
 
 
