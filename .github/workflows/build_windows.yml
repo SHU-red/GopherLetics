@@ -1,22 +1,22 @@
-on:
-  release:
-    types: [published]
+# on:
+#   release:
+#     types: [published]
 
-permissions:
-  contents: write
-  packages: write
+# permissions:
+#   contents: write
+#   packages: write
 
-name: build_windows
+# name: build_windows
 
-jobs:
-  release-windows-amd64:
-    name: release windows/amd64
-    runs-on: winndows-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: wangyoucao577/go-release-action@v1
-        with:
-          github_token: ${{ secrets.BUILD }}
-          goos: windows
-          goarch: amd64
-          binary_name: GopherLetics_Windows_AMD64
+# jobs:
+#   release-windows-amd64:
+#     name: release windows/amd64
+#     runs-on: winndows-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: wangyoucao577/go-release-action@v1
+#         with:
+#           github_token: ${{ secrets.BUILD }}
+#           goos: windows
+#           goarch: amd64
+#           binary_name: GopherLetics_Windows_AMD64
