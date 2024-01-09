@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.30](https://github.com/SHU-red/GopherLetics/compare/v1.0.29...v1.0.30) (2024-01-09)
+
+
+### Bug Fixes
+
+* adding libxkbcommon-dev ([2c76689](https://github.com/SHU-red/GopherLetics/commit/2c7668932d0cdf7f5db530da9736708b683fcb9b))
+
 ## [1.0.29](https://github.com/SHU-red/GopherLetics/compare/v1.0.28...v1.0.29) (2024-01-08)
 
 
