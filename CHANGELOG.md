@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.33](https://github.com/SHU-red/GopherLetics/compare/v1.0.32...v1.0.33) (2024-01-09)
+
+
+### Bug Fixes
+
+* add libegl1-mesa-dev for Wayland build ([f109ae0](https://github.com/SHU-red/GopherLetics/commit/f109ae0e0de8304e2dd4dd0cd43a4ffde8e49aca))
+
 ## [1.0.32](https://github.com/SHU-red/GopherLetics/compare/v1.0.31...v1.0.32) (2024-01-09)
 
 
