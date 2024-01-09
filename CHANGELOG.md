@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.32](https://github.com/SHU-red/GopherLetics/compare/v1.0.31...v1.0.32) (2024-01-09)
+
+
+### Bug Fixes
+
+* clean Install packages for ubuntu wayland build ([23d22dd](https://github.com/SHU-red/GopherLetics/commit/23d22dd652d1f5907125bbb18621788a5a100537))
+
 ## [1.0.31](https://github.com/SHU-red/GopherLetics/compare/v1.0.30...v1.0.31) (2024-01-09)
 
 
