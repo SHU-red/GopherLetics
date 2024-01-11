@@ -10,12 +10,6 @@ This project has to be seen as
 ## What i wanted to learn
 `golang` `fyne` `GitHub Actions` `GitHub Releases` `GitHub Changelog` `commitizen` `Go Release Build` `Release-Please` `GitHub Secrets`
 
-## ToDo
-- [ ] Working base
-- [ ] Multi-OS build
-- [ ] More settings
-- [ ] ...
-
 ## ChangeLog
 See [CHANGELOG.md](https://github.com/SHU-red/GopherLetics/blob/main/CHANGELOG.md)
 
