@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"fyne.io/fyne/v2/theme"
+	"fyne.io/fyne/v2/widget"
 	"github.com/SHU-red/GopherLetics.git/internal/global"
 )
 
@@ -21,7 +21,7 @@ func runloop() {
 }
 
 // Execute Actions for Toggling Play button
-func toggleplay() {
+func toggleplay(button *widget.Button) {
 
 	// Toggle play
 	global.Gui.Play = !global.Gui.Play
@@ -30,21 +30,13 @@ func toggleplay() {
 	fmt.Println("Toggled Play to " + strconv.FormatBool(global.Gui.Play))
 	// Change Button icon
 	if global.Gui.Play {
-		playbutton.SetIcon(theme.MediaPlayIcon())
+		PlayButtonPlay(button)
 	} else {
-		playbutton.SetIcon(theme.MediaPauseIcon())
+		PlayButtonPause(button)
 	}
 
 	prog, _ := global.Gui.Progress.Get()
 	global.Gui.Progress.Set(prog + 0.1)
-
-	// Debug
-	fmt.Println("New playbutton icon: " + playbutton.Icon.Name())
-
-	// Set Content
-	//w.SetContent(content)
-	//playbutton.ToolbarObject().Refresh()
-	//toolbar.Refresh()
 
 	// Count Timer if active
 	if global.Gui.Play {

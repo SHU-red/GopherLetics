@@ -18,8 +18,6 @@ import (
 var content fyne.Container
 
 // Declare Variable contents
-var playbutton widget.ToolbarAction
-var toolbar widget.Toolbar
 var timer canvas.Text
 
 func Main() {
@@ -61,12 +59,18 @@ func Main() {
 	bottom_right := widget.NewLabel("")
 	bottom := container.NewBorder(nil, nil, bottom_left, bottom_right, nil)
 
-	// Toolbar
-	playbutton = *widget.NewToolbarAction(theme.MediaPlayIcon(), toggleplay)
-	toolbar = *widget.NewToolbar(widget.NewToolbarAction(theme.MediaSkipPreviousIcon(), func() {}), &playbutton, widget.NewToolbarAction(theme.MediaSkipNextIcon(), func() {}))
+	// Play Button
+	var playbutton widget.Button
+	PlayButtonPause(&playbutton)
+	playbutton.OnTapped = func() { toggleplay(&playbutton) }
+
+	//
+
+	// ToolBar
+	toolbar := container.NewHBox(widget.NewButtonWithIcon("", theme.MediaSkipPreviousIcon(), func() {}), &playbutton, widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), func() {}))
 
 	// Menu
-	menu := container.NewBorder(nil, nil, widget.NewButtonWithIcon("", theme.ViewRefreshIcon(), refresh), widget.NewButtonWithIcon("", theme.AccountIcon(), func() {}), container.NewCenter(&toolbar))
+	menu := container.NewBorder(nil, nil, widget.NewButtonWithIcon("", theme.ViewRefreshIcon(), refresh), widget.NewButtonWithIcon("", theme.AccountIcon(), func() {}), container.NewCenter(toolbar))
 
 	// Progress bar
 	progbar := widget.NewProgressBarWithData(global.Gui.Progress)
@@ -93,6 +97,32 @@ func Main() {
 	// Set Content
 	w.SetContent(&content)
 
+	// Catch Keyboard strokes
+	w.Canvas().SetOnTypedKey(func(k *fyne.KeyEvent) {
+		fmt.Println("Key pressed: " + k.Name)
+		switch k.Name {
+
+		// Space = Play/Pause
+		case fyne.KeySpace:
+			toggleplay(&playbutton)
+		}
+
+		// Left = Previous
+		//TODO
+
+		// Right = Next
+		// TODO
+
+		// W = Workout
+		//TODO
+
+		// S = Settings
+		//TODO
+
+		// R = Refresh
+		//TODO
+	})
+
 	// Runloop
 	go runloop()
 
@@ -107,5 +137,25 @@ func refresh() {
 
 	// Update content
 	update_all()
+
+}
+
+// Set all Play/Pause Buttons Attributes for Play State (Showing Pause Icon)
+func PlayButtonPlay(button *widget.Button) {
+
+	button.SetText("")
+	button.SetIcon(theme.MediaPauseIcon())
+	button.Importance = widget.DangerImportance
+	button.Refresh()
+
+}
+
+// Set all Play/Pause Buttons Attributes for Pause State (Showing Play Icon)
+func PlayButtonPause(button *widget.Button) {
+
+	button.SetText("")
+	button.SetIcon(theme.MediaPlayIcon())
+	button.Importance = widget.MediumImportance
+	button.Refresh()
 
 }
