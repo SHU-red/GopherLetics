@@ -1,24 +1,21 @@
 # GopherLetics
 GopherLetics is a gui-based workout companion, fed by workout API [@fitness.sebhulse.com](https://fitness.sebhulse.com/index.html), helping you to focus on your exercises without distraction.
 
-## Sidenote
-This project has to be seen as
-- **Fun hobby-project for a noob**
-- **work in progress**
-- No focus on stability/security/architecture
 
-## What i wanted to learn
-`golang` `fyne` `GitHub Actions` `GitHub Releases` `GitHub Changelog` `commitizen` `Go Release Build` `Release-Please` `GitHub Secrets`
 
-## ChangeLog
-See [CHANGELOG.md](https://github.com/SHU-red/GopherLetics/blob/main/CHANGELOG.md)
+> [!WARNING]
+> - This Project is created by a hobbyist, who wanted to learn more about `Gitub`, `GitHub Workflows`, `Fyne` and many things more
+> - There is no claim for a 100% stable application
+> - Release- Merge-Management is done as far as my abilities allow me to
 
-## Gui/Usage
 ![](./assets/gui_main.png)
 
-- **Timer**  [Upper Left] showing the current countdown
-- **Step List** [Lower Left] shows the whole workout and highlights the current step
-- **Exercise View** [Right] shows details for the current and next exercise
+See [CHANGELOG.md](https://github.com/SHU-red/GopherLetics/blob/main/CHANGELOG.md) for the current state
+
+## Gui/Usage
+
+1. Push Refresh-Button to generate/pull a new workout
+2. Press Play-Button or hit [Space] to start your workout
 
 ## Contribute
-Feel free to contribute, but keep in mind you are talking to a person which has never learned how to maintain a clean repository
+Feel free to open up issues or contribute &rarr; I will do my best to process these items

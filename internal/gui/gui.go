@@ -14,7 +14,10 @@ import (
 	"github.com/SHU-red/GopherLetics.git/internal/global"
 )
 
-// Whole Content
+// Window
+var w fyne.Window
+
+// Whole Content of Base Window
 var content fyne.Container
 
 // Declare Variable contents
@@ -27,7 +30,7 @@ func Main() {
 
 	// Fyne App
 	a := app.New()
-	w := a.NewWindow("GopherLetics")
+	w = a.NewWindow("GopherLetics")
 
 	// URLs
 	url_gopherletics, err := url.Parse("https://github.com/SHU-red/GopherLetics")
@@ -48,7 +51,7 @@ func Main() {
 
 	// Top
 	top_center := container.NewCenter(widget.NewLabel("GopherLetics"))
-	top_right := widget.NewButtonWithIcon("Settings", theme.SettingsIcon(), func() {})
+	top_right := widget.NewButtonWithIcon("Settings", theme.SettingsIcon(), settings)
 	top := container.NewBorder(nil, nil, nil, top_right, top_center)
 
 	// Bottom
@@ -63,8 +66,6 @@ func Main() {
 	var playbutton widget.Button
 	PlayButtonPause(&playbutton)
 	playbutton.OnTapped = func() { toggleplay(&playbutton) }
-
-	//
 
 	// ToolBar
 	toolbar := container.NewHBox(widget.NewButtonWithIcon("", theme.MediaSkipPreviousIcon(), func() {}), &playbutton, widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), func() {}))
