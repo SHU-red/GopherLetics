@@ -4,8 +4,8 @@ GopherLetics is a gui-based workout companion, fed by workout API [@fitness.sebh
 
 
 > [!WARNING]
-> - This Project is created by a hobbyist, who wanted to learn more about `Gitub`, `GitHub Workflows`, `Fyne` and many things more
-> - There is no claim for a 100% stable application
+> - This Project is created by a hobbyist, who wanted to gain skills for `Gitub`, `GitHub Workflows`, `Fyne` and many things more
+> - There is no claim for a 100% stable application, perfect software architecture or fully automated testing
 > - Release- Merge-Management is done as far as my abilities allow me to
 
 ![](./assets/gui_main.png)

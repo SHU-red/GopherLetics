@@ -33,3 +33,15 @@ func Gui_initval() {
 	fmt.Println("Init done")
 
 }
+
+// GopherLetics style of stepwise Workout
+type Workoutt struct {
+	ty string // Type
+	na string // Name
+	du int    // Duration
+}
+
+// All Parsed Workouts
+type Workouts []Workoutt
+
+var Wo Workouts

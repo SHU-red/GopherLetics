@@ -12,6 +12,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/SHU-red/GopherLetics.git/internal/global"
+	"github.com/SHU-red/GopherLetics.git/internal/workout"
 )
 
 // Window
@@ -22,6 +23,8 @@ var content fyne.Container
 
 // Declare Variable contents
 var timer canvas.Text
+
+var list fyne.Widget
 
 func Main() {
 
@@ -84,7 +87,7 @@ func Main() {
 	timer.TextSize = 100
 
 	// List
-	list := widget.NewLabel("List")
+	update_workout_list()
 
 	// Excercise Levels
 	lv4 := container.NewVSplit(container.NewCenter(&timer), list)
@@ -105,7 +108,7 @@ func Main() {
 
 		// Space = Play/Pause
 		case fyne.KeySpace:
-			toggleplay(&playbutton)
+			go toggleplay(&playbutton)
 		}
 
 		// Left = Previous
@@ -135,6 +138,9 @@ func refresh() {
 
 	// Refresh values
 	global.Gui.Timer.Set(10)
+
+	// Pull new Workout
+	workout.Wo.Fetch()
 
 	// Update content
 	update_all()

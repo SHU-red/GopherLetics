@@ -7,8 +7,9 @@ import (
 
 func main() {
 
-	// Initialize + Load Configuration
+	// Initialize Configuration with default values
 	global.Conf_initConf()
+	// Overwrite Configuration from config-file
 	global.Conf_Load()
 
 	// Run GUI
