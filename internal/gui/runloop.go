@@ -6,7 +6,8 @@ import (
 	"time"
 
 	"fyne.io/fyne/v2/widget"
-	"github.com/SHU-red/GopherLetics.git/internal/global"
+	"github.com/SHU-red/GopherLetics.git/internal/glob"
+	"github.com/SHU-red/GopherLetics.git/internal/tts"
 )
 
 // Create Channel
@@ -24,22 +25,33 @@ func runloop() {
 func toggleplay(button *widget.Button) {
 
 	// Toggle play
-	global.Gui.Play = !global.Gui.Play
+	glob.Gui.Play = !glob.Gui.Play
 
 	// Debug
-	fmt.Println("Toggled Play to " + strconv.FormatBool(global.Gui.Play))
+	fmt.Println("Toggled Play to " + strconv.FormatBool(glob.Gui.Play))
 	// Change Button icon
-	if global.Gui.Play {
+	if glob.Gui.Play {
+
+		// Format Play Button to Play
 		PlayButtonPlay(button)
+
+		// Speech feedback
+		go tts.SpeakRand("play")
+
 	} else {
+
+		// Format Play Button to Pause
 		PlayButtonPause(button)
+
+		// Speech feedback
+		go tts.SpeakRand("stop")
 	}
 
-	prog, _ := global.Gui.Progress.Get()
-	global.Gui.Progress.Set(prog + 0.1)
+	prog, _ := glob.Gui.Progress.Get()
+	glob.Gui.Progress.Set(prog + 0.1)
 
 	// Count Timer if active
-	if global.Gui.Play {
+	if glob.Gui.Play {
 
 		// Debug
 		fmt.Println("before false")
@@ -48,7 +60,7 @@ func toggleplay(button *widget.Button) {
 		fmt.Println("before channel")
 
 		// Debug
-		fmt.Println(global.Gui.Timer_Str)
+		fmt.Println(glob.Gui.Timer_Str)
 
 		// Start Timer execution
 		go count_timer()
@@ -88,12 +100,12 @@ func count_timer() {
 		default:
 
 			// Decrease Counter
-			ti, _ = global.Gui.Timer.Get()
-			global.Gui.Timer.Set(ti - 1)
+			ti, _ = glob.Gui.Timer.Get()
+			glob.Gui.Timer.Set(ti - 1)
 			update_timer_str()
 
 			// Debug
-			fmt.Println(global.Gui.Timer_Str)
+			fmt.Println(glob.Gui.Timer_Str)
 
 			// Acousitc Coutnter
 			//TODO

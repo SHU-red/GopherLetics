@@ -25,6 +25,9 @@ require (
 	github.com/go-text/typesetting v0.0.0-20230616162802-9c17dd34aa4a // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
+	github.com/hajimehoshi/go-mp3 v0.3.3 // indirect
+	github.com/hajimehoshi/oto/v2 v2.2.0 // indirect
+	github.com/hegedustibor/htgo-tts v0.0.0-20230402053941-cd8d1a158135 // indirect
 	github.com/jsummers/gobmp v0.0.0-20151104160322-e2ba15ffa76e // indirect
 	github.com/kr/text v0.1.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect

@@ -8,7 +8,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-	"github.com/SHU-red/GopherLetics.git/internal/global"
+	"github.com/SHU-red/GopherLetics.git/internal/glob"
 	"github.com/SHU-red/GopherLetics.git/internal/workout"
 )
 
@@ -18,7 +18,7 @@ func updatevals() {
 
 // Update the Shown timer String
 func update_timer_str() {
-	time, _ := global.Gui.Timer.Get()
+	time, _ := glob.Gui.Timer.Get()
 	timer.Text = fmt.Sprintf("%04d", time)
 
 	// Update the shown timer
@@ -42,20 +42,20 @@ func update_workout_list() {
 			switch ty := workout.Wo[i].Ty; ty {
 
 			case "heading":
-				o.(*widget.Button).SetText("------ " + strings.ToUpper(workout.Wo[i].Na) + " ------")
+				o.(*widget.Button).SetText(strings.ToUpper(workout.Wo[i].Na))
 				o.(*widget.Button).Importance = widget.LowImportance
 				o.(*widget.Button).SetIcon(theme.InfoIcon())
 
 			case "exercise":
 
-				o.(*widget.Button).SetText("< " + strconv.Itoa(workout.Wo[i].Du) + " s > " + workout.Wo[i].Na)
+				o.(*widget.Button).SetText(strconv.Itoa(workout.Wo[i].Du) + "s: " + workout.Wo[i].Na)
 				o.(*widget.Button).Importance = widget.WarningImportance
 				o.(*widget.Button).SetIcon(theme.ColorChromaticIcon())
 
 			// Pause
 			default:
 
-				o.(*widget.Button).SetText("< " + strconv.Itoa(workout.Wo[i].Du) + " s > " + workout.Wo[i].Na)
+				o.(*widget.Button).SetText(strconv.Itoa(workout.Wo[i].Du) + "s: " + workout.Wo[i].Na)
 				o.(*widget.Button).Importance = widget.SuccessImportance
 				o.(*widget.Button).SetIcon(theme.HistoryIcon())
 

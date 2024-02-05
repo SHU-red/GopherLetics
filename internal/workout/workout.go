@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/SHU-red/GopherLetics.git/internal/global"
+	"github.com/SHU-red/GopherLetics.git/internal/glob"
 	"github.com/kr/pretty"
 )
 
@@ -32,7 +32,7 @@ func (wo *Workouts) Fetch() {
 	Wo = Workouts{}
 
 	// Build URL from current config
-	url := "https://api.sebhulse.com/v1/workout/?type=" + global.Conf.Workout.Type + "&area=" + global.Conf.Workout.TargetArea + "&level=" + global.Conf.Workout.Intensity + "&duration=" + strconv.Itoa(global.Conf.Workout.Duration)
+	url := "https://api.sebhulse.com/v1/workout/?type=" + glob.Conf.Workout.Type + "&area=" + glob.Conf.Workout.TargetArea + "&level=" + glob.Conf.Workout.Intensity + "&duration=" + strconv.Itoa(glob.Conf.Workout.Duration)
 
 	// Debug
 	println(url)

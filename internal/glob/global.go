@@ -1,4 +1,4 @@
-package global
+package glob
 
 import (
 	"fmt"
@@ -34,14 +34,7 @@ func Gui_initval() {
 
 }
 
-// GopherLetics style of stepwise Workout
-type Workoutt struct {
-	ty string // Type
-	na string // Name
-	du int    // Duration
+// To Store Args
+var Args struct {
+	Debug bool
 }
-
-// All Parsed Workouts
-type Workouts []Workoutt
-
-var Wo Workouts

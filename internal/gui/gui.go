@@ -11,7 +11,7 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-	"github.com/SHU-red/GopherLetics.git/internal/global"
+	"github.com/SHU-red/GopherLetics.git/internal/glob"
 	"github.com/SHU-red/GopherLetics.git/internal/workout"
 )
 
@@ -28,8 +28,8 @@ var list fyne.Widget
 
 func Main() {
 
-	// Initialize global variables
-	global.Gui_initval()
+	// Initialize glob variables
+	glob.Gui_initval()
 
 	// Fyne App
 	a := app.New()
@@ -77,7 +77,7 @@ func Main() {
 	menu := container.NewBorder(nil, nil, widget.NewButtonWithIcon("", theme.ViewRefreshIcon(), refresh), widget.NewButtonWithIcon("", theme.AccountIcon(), func() {}), container.NewCenter(toolbar))
 
 	// Progress bar
-	progbar := widget.NewProgressBarWithData(global.Gui.Progress)
+	progbar := widget.NewProgressBarWithData(glob.Gui.Progress)
 
 	// Exercise
 	exercise := widget.NewLabel("Exercise")
@@ -108,6 +108,7 @@ func Main() {
 
 		// Space = Play/Pause
 		case fyne.KeySpace:
+
 			go toggleplay(&playbutton)
 		}
 
@@ -137,7 +138,7 @@ func Main() {
 func refresh() {
 
 	// Refresh values
-	global.Gui.Timer.Set(10)
+	glob.Gui.Timer.Set(10)
 
 	// Pull new Workout
 	workout.Wo.Fetch()
