@@ -11,7 +11,9 @@ type Gui_Struct struct {
 	Timer     binding.Int
 	Timer_Str string
 	Play      bool
+	WorkoutNr int
 	Progress  binding.Float
+	Duration  int
 }
 
 // Default Values
@@ -23,12 +25,12 @@ func Gui_initval() {
 	Gui.Timer = binding.NewInt()
 	Gui.Timer.Set(0)
 
-	Gui.Timer_Str = "000"
+	Gui.Timer_Str = "No Data"
 
 	Gui.Play = false
 
 	Gui.Progress = binding.NewFloat()
-	Gui.Progress.Set(0.5)
+	Gui.Progress.Set(0)
 
 	fmt.Println("Init done")
 

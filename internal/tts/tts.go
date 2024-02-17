@@ -3,33 +3,26 @@ package tts
 import (
 	"math/rand"
 
-	"github.com/SHU-red/GopherLetics.git/internal/glob"
 	htgotts "github.com/hegedustibor/htgo-tts"
 	"github.com/hegedustibor/htgo-tts/voices"
-	"github.com/kr/pretty"
+	"go.uber.org/zap"
 )
 
 // Re-Usable Speech
-var speech htgotts.Speech
+var speech = htgotts.Speech{Folder: "audio", Language: voices.English}
 
 // Speak a stsring
 func Speak(txt string) {
 
-	// Debug
-	if glob.Args.Debug {
-		pretty.Println("\nDEBUG\nText output: " + txt)
-	}
+	zap.L().Debug("Speaking", zap.String("Text", txt))
 
-	speech = htgotts.Speech{Folder: "audio", Language: voices.English}
-	speech.Speak(txt)
+	// Speak
+	go speech.Speak(txt)
 
 }
 
 // Speak with one of random words
 func SpeakRand(cat string) {
-
-	// Prepare Speech
-	speech = htgotts.Speech{Folder: "audio", Language: voices.English}
 
 	// Prepare String
 	txt := ""
@@ -48,7 +41,8 @@ func SpeakRand(cat string) {
 		txt = "Voice command error"
 	}
 
-	speech.Speak(txt)
+	// Loop through sp
+	go speech.Speak(txt)
 
 }
 

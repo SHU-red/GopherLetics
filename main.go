@@ -5,9 +5,14 @@ import (
 
 	"github.com/SHU-red/GopherLetics.git/internal/glob"
 	"github.com/SHU-red/GopherLetics.git/internal/gui"
+	"go.uber.org/zap"
 )
 
 func main() {
+
+	// Init Zap Logger
+	logger, _ := zap.NewDevelopment()
+	zap.ReplaceGlobals(logger)
 
 	// Extract Arguments
 	getArgs()

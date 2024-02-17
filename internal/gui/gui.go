@@ -13,6 +13,7 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/SHU-red/GopherLetics.git/internal/glob"
 	"github.com/SHU-red/GopherLetics.git/internal/workout"
+	"go.uber.org/zap"
 )
 
 // Window
@@ -23,6 +24,12 @@ var content fyne.Container
 
 // Declare Variable contents
 var timer canvas.Text
+
+// Declare global bar
+var progbar fyne.Widget
+
+// Timercontainer
+var timercontainer fyne.Container
 
 var list fyne.Widget
 
@@ -77,20 +84,21 @@ func Main() {
 	menu := container.NewBorder(nil, nil, widget.NewButtonWithIcon("", theme.ViewRefreshIcon(), refresh), widget.NewButtonWithIcon("", theme.AccountIcon(), func() {}), container.NewCenter(toolbar))
 
 	// Progress bar
-	progbar := widget.NewProgressBarWithData(glob.Gui.Progress)
+	progbar = widget.NewProgressBarWithData(glob.Gui.Progress)
 
 	// Exercise
 	exercise := widget.NewLabel("Exercise")
 
 	// Timer
-	timer.Text = "0004"
+	timer.Text = "NO DATA"
 	timer.TextSize = 100
+	timercontainer = *container.NewCenter(&timer)
 
 	// List
 	update_workout_list()
 
 	// Excercise Levels
-	lv4 := container.NewVSplit(container.NewCenter(&timer), list)
+	lv4 := container.NewVSplit(&timercontainer, list)
 	lv3 := container.NewHSplit(lv4, exercise)
 	lv2 := container.NewBorder(nil, progbar, nil, nil, lv3)
 	lv1 := container.NewBorder(nil, menu, nil, nil, lv2)
@@ -128,17 +136,14 @@ func Main() {
 		//TODO
 	})
 
-	// Runloop
-	go runloop()
+	// // Runloop
+	// go runloop()
 
 	// Show App
 	w.ShowAndRun()
 }
 
 func refresh() {
-
-	// Refresh values
-	glob.Gui.Timer.Set(10)
 
 	// Pull new Workout
 	workout.Wo.Fetch()
@@ -165,5 +170,25 @@ func PlayButtonPause(button *widget.Button) {
 	button.SetIcon(theme.MediaPlayIcon())
 	button.Importance = widget.MediumImportance
 	button.Refresh()
+
+}
+
+// Switch to certain workout and restet/refresh necessary components
+func SwitchWorkout(x int) {
+
+	zap.L().Debug("Switched Workout", zap.Int("Switching to", x))
+
+	//Set workout Pointer to first non-heading starting from x
+	i := 0
+	for workout.Wo[i].Ty == "heading" {
+		i++
+	}
+	glob.Gui.WorkoutNr = i
+
+	// Reset Timer to current Workout Duration
+	glob.Gui.Timer.Set(workout.Wo[i].Du)
+
+	// Update All
+	update_all()
 
 }
