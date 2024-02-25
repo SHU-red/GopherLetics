@@ -10,7 +10,6 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/SHU-red/GopherLetics.git/internal/glob"
 	"github.com/SHU-red/GopherLetics.git/internal/workout"
-	"go.uber.org/zap"
 )
 
 func updatevals() {
@@ -22,20 +21,8 @@ func update_timer_str() {
 	time, _ := glob.Gui.Timer.Get()
 	timer.Text = fmt.Sprintf("%04d", time)
 
-	// Update Progress
-	l := float64(len(workout.Wo))
-	n := float64(int(glob.Gui.WorkoutNr))
-	zap.L().Debug("Current Workout", zap.Any("Positoin", glob.Gui.WorkoutNr))
-	p := n / l
-	zap.L().Debug("New Progress calculated", zap.Float64("Progress", p), zap.Any("Len", l), zap.Any("number", n))
-	glob.Gui.Progress.Set(p)
-
 	// Update the shown timer
 	timer.Refresh()
-	progbar.Refresh()
-	w.Content().Refresh()
-	w.Canvas().Refresh(progbar)
-	w.Canvas().Refresh(&timercontainer)
 
 }
 
@@ -81,8 +68,15 @@ func update_workout_list() {
 			}
 
 			o.(*widget.Button).Refresh()
+			o.Refresh()
 
 		})
+
+	// Refresh whole list
+	list.Refresh()
+	content.Refresh()
+	w.Content().Refresh()
+	w.Canvas().Refresh(list)
 
 }
 

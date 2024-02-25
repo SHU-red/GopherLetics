@@ -19,3 +19,6 @@
 
 # Go workspace file
 go.work
+
+# Ignore generated mp3s
+/audio/*

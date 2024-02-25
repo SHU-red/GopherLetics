@@ -3,6 +3,7 @@ package gui
 import (
 	"fmt"
 	"net/url"
+	"os/exec"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -12,6 +13,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/SHU-red/GopherLetics.git/internal/glob"
+	"github.com/SHU-red/GopherLetics.git/internal/tts"
 	"github.com/SHU-red/GopherLetics.git/internal/workout"
 	"go.uber.org/zap"
 )
@@ -31,7 +33,9 @@ var progbar fyne.Widget
 // Timercontainer
 var timercontainer fyne.Container
 
+// For Rorkout list
 var list fyne.Widget
+var lv4 *container.Split
 
 func Main() {
 
@@ -98,7 +102,7 @@ func Main() {
 	update_workout_list()
 
 	// Excercise Levels
-	lv4 := container.NewVSplit(&timercontainer, list)
+	lv4 = container.NewVSplit(&timercontainer, list)
 	lv3 := container.NewHSplit(lv4, exercise)
 	lv2 := container.NewBorder(nil, progbar, nil, nil, lv3)
 	lv1 := container.NewBorder(nil, menu, nil, nil, lv2)
@@ -148,6 +152,12 @@ func refresh() {
 	// Pull new Workout
 	workout.Wo.Fetch()
 
+	// Switch workout
+	SwitchWorkout(0)
+
+	// Load first exercise in browser
+	go ShowWorkout(glob.Gui.WorkoutNr)
+
 	// Update content
 	update_all()
 
@@ -179,16 +189,33 @@ func SwitchWorkout(x int) {
 	zap.L().Debug("Switched Workout", zap.Int("Switching to", x))
 
 	//Set workout Pointer to first non-heading starting from x
-	i := 0
+	i := x
 	for workout.Wo[i].Ty == "heading" {
 		i++
 	}
 	glob.Gui.WorkoutNr = i
-
 	// Reset Timer to current Workout Duration
 	glob.Gui.Timer.Set(workout.Wo[i].Du)
 
+	// Update Progress
+	p := float64(int(glob.Gui.WorkoutNr)) / float64(len(workout.Wo))
+	zap.L().Debug("New Progress calculated", zap.Float64("Progress", p))
+	glob.Gui.Progress.Set(p)
+
+	// If Workout switch was done during Play
+	if glob.Gui.Play {
+		go tts.Speak(workout.Wo[i].Na)
+	}
+
 	// Update All
 	update_all()
+
+}
+
+// Show workout in Browser
+func ShowWorkout(x int) {
+
+	// Concurrently open browser for showing the workout
+	_ = exec.Command("xdg-open", "https://www.youtube.com/results?search_query="+workout.Wo[x].Na+" Exercise").Start()
 
 }

@@ -73,18 +73,19 @@ func toggleplay(button *widget.Button) {
 // Mathematically count down timer
 func count_timer() {
 
-	// Declare
-	var ti int
-
-	// Debug
-	fmt.Println("Counting")
-
 	// Execute every second
 	for range time.Tick(time.Second) {
+
+		// Get current Timer
+		ti, _ := glob.Gui.Timer.Get()
+		glob.Gui.Timer.Set(ti - 1)
+		zap.L().Debug("Counting", zap.Int("Timer", ti))
 
 		// !! Non-blocking !! channel read
 		select {
 		case <-stop:
+
+			zap.L().Debug("Concurrent Countdown stopped")
 
 			// Cancel countdown
 			return
@@ -92,23 +93,25 @@ func count_timer() {
 		// If no message with true is received
 		default:
 
-			// Decrease Counter
-			ti, _ = glob.Gui.Timer.Get()
-			ti = ti - 1
-
 			// If done
 			if ti < 1 {
+				zap.L().Debug("Next Workout")
 				SwitchWorkout(glob.Gui.WorkoutNr + 1)
 			} else { // Proceed
-				glob.Gui.Timer.Set(ti - 1)
+				zap.L().Debug("Update Timer")
 				go update_timer_str()
 			}
 
-			// Acousitc Coutnter
-			if ti <= 5 && ti > 0 {
-				go tts.Speak(strconv.Itoa(ti))
+			// Acousitc Countdown for 5, 4, 3, 2 and 1
+			// Has to be sent in advantage for syncronization with shown timer
+			if ti <= 6 && ti > 1 {
+				go tts.Speak(strconv.Itoa(ti - 1))
 			}
-			//TODO
+
+			// Show next workout in browser
+			if ti == 10 && glob.Gui.WorkoutNr < len(workout.Wo)-1 {
+				go ShowWorkout(glob.Gui.WorkoutNr + 1)
+			}
 
 		}
 	}

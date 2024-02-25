@@ -16,6 +16,10 @@ type Config struct {
 	Audio   Audio
 }
 
+// Add viper package to edit code
+
+
+
 type Workout struct {
 	Duration   int
 	Type       string
