@@ -37,6 +37,8 @@ func SpeakRand(cat string) {
 		txt = randomSlice([]string{"Go!", "Lets go!", "Start!", "All in!", "Go for it!"})
 	case "stop":
 		txt = randomSlice([]string{"Stop!", "Halted!", "Break!"})
+	case "done":
+		txt = randomSlice([]string{"You did it!", "Excellent!", "Workout successfully finished!"})
 	default:
 		txt = "Voice command error"
 	}

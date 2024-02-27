@@ -91,7 +91,7 @@ func Main() {
 	progbar = widget.NewProgressBarWithData(glob.Gui.Progress)
 
 	// Exercise
-	exercise := widget.NewLabel("Exercise")
+	// exercise := widget.NewLabel("Exercise")
 
 	// Timer
 	timer.Text = "NO DATA"
@@ -103,8 +103,9 @@ func Main() {
 
 	// Excercise Levels
 	lv4 = container.NewVSplit(&timercontainer, list)
-	lv3 := container.NewHSplit(lv4, exercise)
-	lv2 := container.NewBorder(nil, progbar, nil, nil, lv3)
+	// lv3 := container.NewHSplit(lv4, exercise)
+	// lv2 := container.NewBorder(nil, progbar, nil, nil, lv3)
+	lv2 := container.NewBorder(nil, progbar, nil, nil, lv4)
 	lv1 := container.NewBorder(nil, menu, nil, nil, lv2)
 
 	// Main Content
@@ -156,7 +157,7 @@ func refresh() {
 	SwitchWorkout(0)
 
 	// Load first exercise in browser
-	go ShowWorkout(glob.Gui.WorkoutNr)
+	go ShowWorkout(glob.Gui.WorkoutNr, true)
 
 	// Update content
 	update_all()
@@ -188,6 +189,14 @@ func SwitchWorkout(x int) {
 
 	zap.L().Debug("Switched Workout", zap.Int("Switching to", x))
 
+	// If Workout has finished
+	if x >= len(workout.Wo) {
+		glob.Gui.Play = false
+		go tts.SpeakRand("done")
+		SwitchWorkout(0)
+		return
+	}
+
 	//Set workout Pointer to first non-heading starting from x
 	i := x
 	for workout.Wo[i].Ty == "heading" {
@@ -213,9 +222,26 @@ func SwitchWorkout(x int) {
 }
 
 // Show workout in Browser
-func ShowWorkout(x int) {
+func ShowWorkout(x int, force bool) {
 
-	// Concurrently open browser for showing the workout
-	_ = exec.Command("xdg-open", "https://www.youtube.com/results?search_query="+workout.Wo[x].Na+" Exercise").Start()
+	// If force is true
+	if force {
+		_ = exec.Command("xdg-open", "https://www.youtube.com/results?search_query="+workout.Wo[x].Na+" Exercise").Start()
+		return
+	}
+
+	// Start analyzing beginning from the next exercise
+	x++
+
+	// Ignore headings
+	for workout.Wo[x].Ty == "heading" && x < len(workout.Wo) {
+		x++
+	}
+
+	// If end is not already reached
+	if x < len(workout.Wo) && workout.Wo[x].Ty == "exercise" {
+		// Concurrently open browser for showing the workout
+		_ = exec.Command("xdg-open", "https://www.youtube.com/results?search_query="+workout.Wo[x].Na+" Exercise").Start()
+	}
 
 }

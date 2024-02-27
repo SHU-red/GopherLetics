@@ -38,7 +38,8 @@ func toggleplay(button *widget.Button) {
 			PlayButtonPlay(button)
 
 			// Speech feedback
-			go tts.SpeakRand("play")
+			// go tts.SpeakRand("play")
+			go tts.Speak(workout.Wo[glob.Gui.WorkoutNr].Na)
 
 		} else {
 
@@ -110,7 +111,7 @@ func count_timer() {
 
 			// Show next workout in browser
 			if ti == 10 && glob.Gui.WorkoutNr < len(workout.Wo)-1 {
-				go ShowWorkout(glob.Gui.WorkoutNr + 1)
+				go ShowWorkout(glob.Gui.WorkoutNr, false)
 			}
 
 		}
