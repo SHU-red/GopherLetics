@@ -1,3 +1,10 @@
+- [ ] Move Buttons to 1. Settings, 2. Workout, 3. Refresh
+- [ ] "Transition to Pyramid"
+- [ ] Show workout parameters left of counter
+- [ ] Fix proceeding after last workout
+- [ ] Keep last opened workout and do not open the same again
+- [ ] Keep last opened workout and open the new one on click or play/pause
+
 package main
 
 import (
