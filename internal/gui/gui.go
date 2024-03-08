@@ -37,6 +37,9 @@ var timercontainer fyne.Container
 var list fyne.Widget
 var lv4 *container.Split
 
+// Last shown Workout
+var last_shown_workout string
+
 func Main() {
 
 	// Initialize glob variables
@@ -238,8 +241,8 @@ func ShowWorkout(x int, force bool) {
 		x++
 	}
 
-	// If end is not already reached
-	if x < len(workout.Wo) && workout.Wo[x].Ty == "exercise" {
+	// If end is not already reached and last shown is not the same as current
+	if x < len(workout.Wo) && workout.Wo[x].Ty == "exercise" && last_shown_workout != workout.Wo[x].Na {
 		// Concurrently open browser for showing the workout
 		_ = exec.Command("xdg-open", "https://www.youtube.com/results?search_query="+workout.Wo[x].Na+" Exercise").Start()
 	}
