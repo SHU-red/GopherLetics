@@ -68,8 +68,7 @@ func Main() {
 
 	// Top
 	top_center := container.NewCenter(widget.NewLabel("GopherLetics"))
-	top_right := widget.NewButtonWithIcon("Settings", theme.SettingsIcon(), settings)
-	top := container.NewBorder(nil, nil, nil, top_right, top_center)
+	top := container.NewBorder(nil, nil, nil, nil, top_center)
 
 	// Bottom
 	bottom_left := container.New(layout.NewHBoxLayout(),
@@ -87,8 +86,9 @@ func Main() {
 	// ToolBar
 	toolbar := container.NewHBox(widget.NewButtonWithIcon("", theme.MediaSkipPreviousIcon(), func() {}), &playbutton, widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), func() {}))
 
+	low_left := container.NewHBox(widget.NewButtonWithIcon("Workout", theme.AccountIcon(), func() {}), widget.NewButtonWithIcon("Refresh", theme.ViewRefreshIcon(), refresh))
 	// Menu
-	menu := container.NewBorder(nil, nil, widget.NewButtonWithIcon("", theme.ViewRefreshIcon(), refresh), widget.NewButtonWithIcon("", theme.AccountIcon(), func() {}), container.NewCenter(toolbar))
+	menu := container.NewBorder(nil, nil, low_left, widget.NewButtonWithIcon("Settings", theme.SettingsIcon(), settings), container.NewCenter(toolbar))
 
 	// Progress bar
 	progbar = widget.NewProgressBarWithData(glob.Gui.Progress)
@@ -105,10 +105,10 @@ func Main() {
 	update_workout_list()
 
 	// Excercise Levels
-	lv4 = container.NewVSplit(&timercontainer, list)
+	// lv4 = container.NewVSplit(&timercontainer, list)
 	// lv3 := container.NewHSplit(lv4, exercise)
 	// lv2 := container.NewBorder(nil, progbar, nil, nil, lv3)
-	lv2 := container.NewBorder(nil, progbar, nil, nil, lv4)
+	lv2 := container.NewBorder(&timercontainer, progbar, nil, nil, list)
 	lv1 := container.NewBorder(nil, menu, nil, nil, lv2)
 
 	// Main Content
