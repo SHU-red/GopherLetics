@@ -61,7 +61,11 @@ func update_workout_list() {
 			default:
 
 				o.(*widget.Button).SetText(strconv.Itoa(workout.Wo[i].Du) + "s: " + workout.Wo[i].Na)
-				o.(*widget.Button).Importance = widget.SuccessImportance
+				if i == glob.Gui.WorkoutNr {
+					o.(*widget.Button).Importance = widget.HighImportance
+				} else {
+					o.(*widget.Button).Importance = widget.SuccessImportance
+				}
 				o.(*widget.Button).SetIcon(theme.HistoryIcon())
 				o.(*widget.Button).OnTapped = func() { SwitchWorkout(i) }
 
