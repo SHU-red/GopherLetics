@@ -32,7 +32,7 @@ func (wo *Workouts) Fetch() {
 	Wo = Workouts{}
 
 	// Build URL from current config
-	url := "https://api.sebhulse.com/v1/workout/?type=" + glob.Conf.Workout.Type + "&area=" + glob.Conf.Workout.TargetArea + "&level=" + glob.Conf.Workout.Intensity + "&duration=" + strconv.Itoa(glob.Conf.Workout.Duration)
+	url := "https://api.sebhulse.com/v1/workout/?type=" + glob.Conf.Workout.Type + "&area=" + glob.Conf.Workout.Area + "&level=" + glob.Conf.Workout.Level + "&duration=" + fmt.Sprintf("%.0f", glob.Conf.Workout.Duration)
 
 	// Debug
 	println(url)

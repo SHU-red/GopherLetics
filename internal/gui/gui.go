@@ -86,7 +86,7 @@ func Main() {
 	// ToolBar
 	toolbar := container.NewHBox(widget.NewButtonWithIcon("", theme.MediaSkipPreviousIcon(), func() {}), &playbutton, widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), func() {}))
 
-	low_left := container.NewHBox(widget.NewButtonWithIcon("Workout", theme.AccountIcon(), func() {}), widget.NewButtonWithIcon("Refresh", theme.ViewRefreshIcon(), refresh))
+	low_left := container.NewHBox(widget.NewButtonWithIcon("Workout", theme.AccountIcon(), workoutSettings), widget.NewButtonWithIcon("Refresh", theme.ViewRefreshIcon(), refresh))
 	// Menu
 	menu := container.NewBorder(nil, nil, low_left, widget.NewButtonWithIcon("Settings", theme.SettingsIcon(), settings), container.NewCenter(toolbar))
 
@@ -156,14 +156,19 @@ func refresh() {
 	// Pull new Workout
 	workout.Wo.Fetch()
 
-	// Switch workout
-	SwitchWorkout(0)
+	// If Workout could be feched
+	if len(workout.Wo) > 0 {
 
-	// Load first exercise in browser
-	go ShowWorkout(glob.Gui.WorkoutNr, true)
+		// Switch workout
+		SwitchWorkout(0)
 
-	// Update content
-	update_all()
+		// Load first exercise in browser
+		go ShowWorkout(glob.Gui.WorkoutNr, true)
+
+		// Update content
+		update_all()
+
+	}
 
 }
 
@@ -189,6 +194,11 @@ func PlayButtonPause(button *widget.Button) {
 
 // Switch to certain workout and restet/refresh necessary components
 func SwitchWorkout(x int) {
+
+	// if Workout lenght is 0
+	if len(workout.Wo) == 0 {
+		return
+	}
 
 	zap.L().Debug("Switched Workout", zap.Int("Switching to", x))
 
@@ -243,6 +253,10 @@ func ShowWorkout(x int, force bool) {
 
 	// If end is not already reached and last shown is not the same as current
 	if x < len(workout.Wo) && workout.Wo[x].Ty == "exercise" && last_shown_workout != workout.Wo[x].Na {
+
+		// Store opened Workout for check next time
+		last_shown_workout = workout.Wo[x].Na
+
 		// Concurrently open browser for showing the workout
 		_ = exec.Command("xdg-open", "https://www.youtube.com/results?search_query="+workout.Wo[x].Na+" Exercise").Start()
 	}

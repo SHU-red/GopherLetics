@@ -18,13 +18,16 @@ type Config struct {
 
 // Add viper package to edit code
 
-
+// Declare Choices
+var Choices_Type = []string{"strength", "cardio"}
+var Choices_Level = []string{"beginner", "intermediate", "advanced"}
+var Choices_Area = []string{"full", "upper", "lower", "core"}
 
 type Workout struct {
-	Duration   int
-	Type       string
-	TargetArea string
-	Intensity  string
+	Duration float64
+	Type     string
+	Area     string
+	Level    string
 }
 
 type Audio struct {
@@ -53,9 +56,9 @@ func Conf_initConf() {
 
 	// Workout
 	Conf.Workout.Duration = 30
-	Conf.Workout.Type = "Strength"
-	Conf.Workout.TargetArea = "Full Body"
-	Conf.Workout.Intensity = "Beginner"
+	Conf.Workout.Type = "strength"
+	Conf.Workout.Area = "full"
+	Conf.Workout.Level = "beginner"
 
 	// Audio
 	Conf.Audio.Activate = true
