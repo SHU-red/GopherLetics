@@ -15,7 +15,9 @@ func workoutSettings() {
 	// Generate Widgets
 	dur_bind := binding.BindFloat(&glob.Conf.Workout.Duration)
 	dur := binding.FloatToStringWithFormat(dur_bind, "Duration: %0.0f min")
+
 	label_duration := widget.NewLabelWithData(dur)
+
 	slider_duration := widget.NewSlider(10, 60)
 	slider_duration.Value = float64(glob.Conf.Workout.Duration)
 	slider_duration.Bind(dur_bind)
