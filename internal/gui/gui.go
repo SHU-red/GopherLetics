@@ -226,10 +226,6 @@ func SwitchWorkout(x int) {
 		pretty.Print("-thats it")
 
 		// Stop Timer countown non blocking
-		// select {
-		// case stop <- true:
-		// default:
-		// }
 		go func() {
 			stop <- true
 		}()
