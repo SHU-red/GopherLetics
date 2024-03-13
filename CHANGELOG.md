@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.1.0](https://github.com/SHU-red/GopherLetics/compare/v1.0.33...v1.1.0) (2024-03-13)
+
+
+### Features
+
+* **workout fetch:** Added fetching workout & showing as list in GUI ([51cef68](https://github.com/SHU-red/GopherLetics/commit/51cef688ce60363d9c8c60f55b05eb651f77cbc5))
+
+
+### Bug Fixes
+
+* **brower:** Fix re-opening already opened search query ([22275b0](https://github.com/SHU-red/GopherLetics/commit/22275b0c95595ede3a5d4d564f367cc4731028a6))
+* **browser:** Prevent opening the same workout in browser ([529944f](https://github.com/SHU-red/GopherLetics/commit/529944f0c04c3ef4385c5e1d18c17c8d38e8cff7))
+* **buildup:** Implemented tts, formatting of workouts ([3004bab](https://github.com/SHU-red/GopherLetics/commit/3004baba0823fe87d72391b7c0af127d19d64369))
+* **buildup:** Introduce Browser search and fix Countdown ([c632109](https://github.com/SHU-red/GopherLetics/commit/c632109c8d0707afde39f01d2f648a0cc7f00895))
+* **buildup:** Switch to Go1.22 and Fyne1.3.4 Concurrentcy update ([68a41a9](https://github.com/SHU-red/GopherLetics/commit/68a41a9e302004141431bc8976a1dc45118e9578))
+* **execution:** Fixed not correct ending after last workout ([df9a0c3](https://github.com/SHU-red/GopherLetics/commit/df9a0c3300d46f73636652528df4ace87d367312))
+* **gui:** Fix not highlighted Rest sections ([84d27a3](https://github.com/SHU-red/GopherLetics/commit/84d27a3eb4465eeb8a7d826c3cfc8f5cafcdcc86))
+* **gui:** UI improvements ([d029a87](https://github.com/SHU-red/GopherLetics/commit/d029a87fdc0484c091f3ac7209b9ae71119848a2))
+* **runloop:** Fixing combination of events ([316d75f](https://github.com/SHU-red/GopherLetics/commit/316d75f09c0780fbf28a1ee0ae8c0aefb759bd4a))
+
 ## [1.0.33](https://github.com/SHU-red/GopherLetics/compare/v1.0.32...v1.0.33) (2024-01-09)
 
 
