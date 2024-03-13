@@ -13,7 +13,7 @@ jobs:
     name: release darwin/amd64
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.BUILD }}
