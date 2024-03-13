@@ -41,6 +41,11 @@ func toggleplay(button *widget.Button) {
 			// go tts.SpeakRand("play")
 			go tts.Speak(workout.Wo[glob.Gui.WorkoutNr].Na)
 
+			zap.L().Debug("Starting Counter")
+
+			// Concurrently run Counter
+			go count_timer()
+
 		} else {
 
 			// Format Play Button to Pause
@@ -48,17 +53,6 @@ func toggleplay(button *widget.Button) {
 
 			// Speech feedback
 			go tts.SpeakRand("stop")
-		}
-
-		// Count Timer if active
-		if glob.Gui.Play {
-
-			zap.L().Debug("Starting Counter")
-
-			// Concurrently run Counter
-			go count_timer()
-
-		} else {
 
 			zap.L().Debug("Stopping Coutner")
 
@@ -77,11 +71,6 @@ func count_timer() {
 	// Execute every second
 	for range time.Tick(time.Second) {
 
-		// Get current Timer
-		ti, _ := glob.Gui.Timer.Get()
-		glob.Gui.Timer.Set(ti - 1)
-		zap.L().Debug("Counting", zap.Int("Timer", ti))
-
 		// !! Non-blocking !! channel read
 		select {
 		case <-stop:
@@ -93,6 +82,11 @@ func count_timer() {
 
 		// If no message with true is received
 		default:
+
+			// Get current Timer
+			ti, _ := glob.Gui.Timer.Get()
+			glob.Gui.Timer.Set(ti - 1)
+			zap.L().Debug("Counting", zap.Int("Timer", ti))
 
 			// If done
 			if ti < 1 {

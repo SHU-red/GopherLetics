@@ -15,6 +15,7 @@ import (
 	"github.com/SHU-red/GopherLetics.git/internal/glob"
 	"github.com/SHU-red/GopherLetics.git/internal/tts"
 	"github.com/SHU-red/GopherLetics.git/internal/workout"
+	"github.com/kr/pretty"
 	"go.uber.org/zap"
 )
 
@@ -39,6 +40,9 @@ var lv4 *container.Split
 
 // Last shown Workout
 var last_shown_workout string
+
+// Play/Pause Button
+var playbutton widget.Button
 
 func Main() {
 
@@ -79,7 +83,6 @@ func Main() {
 	bottom := container.NewBorder(nil, nil, bottom_left, bottom_right, nil)
 
 	// Play Button
-	var playbutton widget.Button
 	PlayButtonPause(&playbutton)
 	playbutton.OnTapped = func() { toggleplay(&playbutton) }
 
@@ -201,13 +204,36 @@ func SwitchWorkout(x int) {
 	}
 
 	zap.L().Debug("Switched Workout", zap.Int("Switching to", x))
+	zap.L().Debug("Switching to", zap.Int("Workout Lenght", len(workout.Wo)))
 
 	// If Workout has finished
 	if x >= len(workout.Wo) {
+
+		// Set Indicator to false
 		glob.Gui.Play = false
+
+		// Reset PlayButton
+		PlayButtonPause(&playbutton)
+
+		// Speech feedback
 		go tts.SpeakRand("done")
-		SwitchWorkout(0)
-		return
+
+		// Return to start
+		x = 0
+
+		// Debug
+		zap.L().Debug("Finished Workout", zap.Int("Switching to", glob.Gui.WorkoutNr))
+		pretty.Print("-thats it")
+
+		// Stop Timer countown non blocking
+		// select {
+		// case stop <- true:
+		// default:
+		// }
+		go func() {
+			stop <- true
+		}()
+
 	}
 
 	//Set workout Pointer to first non-heading starting from x
