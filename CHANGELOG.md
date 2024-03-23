@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.4](https://github.com/SHU-red/GopherLetics/compare/v1.1.3...v1.1.4) (2024-03-23)
+
+
+### Bug Fixes
+
+* **build:** trigger release ([6c0c1f7](https://github.com/SHU-red/GopherLetics/commit/6c0c1f7b08cc9b15148f3966a7ca50a1f84c1f12))
+
 ## [1.1.3](https://github.com/SHU-red/GopherLetics/compare/v1.1.2...v1.1.3) (2024-03-13)
 
 
