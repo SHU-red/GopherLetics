@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/SHU-red/GopherLetics/compare/v1.1.2...v1.1.3) (2024-03-13)
+
+
+### Bug Fixes
+
+* **actions:** re-push for re-build ([dc7c6c3](https://github.com/SHU-red/GopherLetics/commit/dc7c6c38f9efc6e84eaaa99d36462fec31bc91cd))
+
 ## [1.1.2](https://github.com/SHU-red/GopherLetics/compare/v1.1.1...v1.1.2) (2024-03-13)
 
 
