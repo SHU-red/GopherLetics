@@ -22,3 +22,6 @@ go.work
 
 # Ignore generated mp3s
 /audio/*
+
+# Ignore Binaries
+GopherLetics*
