@@ -2,6 +2,7 @@ package tts
 
 import (
 	"math/rand"
+	"os"
 
 	htgotts "github.com/hegedustibor/htgo-tts"
 	"github.com/hegedustibor/htgo-tts/voices"
@@ -9,7 +10,16 @@ import (
 )
 
 // Re-Usable Speech
-var speech = htgotts.Speech{Folder: "audio", Language: voices.English}
+var speech htgotts.Speech
+
+// Initialize Speech
+func SpeakInit() {
+
+	// Get Temporary Folder
+	tmp_folder := os.TempDir() + "/gopherletics/audio"
+
+	speech = htgotts.Speech{Folder: tmp_folder, Language: voices.English}
+}
 
 // Speak a stsring
 func Speak(txt string) {

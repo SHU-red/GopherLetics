@@ -8,6 +8,7 @@ import (
 
 	"github.com/SHU-red/GopherLetics.git/internal/glob"
 	"github.com/SHU-red/GopherLetics.git/internal/gui"
+	"github.com/SHU-red/GopherLetics.git/internal/tts"
 	"go.uber.org/zap"
 )
 
@@ -24,6 +25,8 @@ func main() {
 	glob.Conf_initConf()
 	// Overwrite Configuration from config-file
 	glob.Conf_Load()
+	// Init speech
+	tts.SpeakInit()
 
 	// Run GUI
 	gui.Main()
