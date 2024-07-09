@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/SHU-red/GopherLetics/compare/v1.5.0...v1.6.0) (2024-07-09)
+
+
+### Features
+
+* **action:** removed alsamixer ([b492a92](https://github.com/SHU-red/GopherLetics/commit/b492a9267d92b94b807fe900e49dc2856eea6caa))
+
 ## [1.5.0](https://github.com/SHU-red/GopherLetics/compare/v1.4.0...v1.5.0) (2024-07-09)
 
 
