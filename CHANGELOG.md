@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/SHU-red/GopherLetics/compare/v1.7.0...v1.7.1) (2024-07-09)
+
+
+### Bug Fixes
+
+* **go.mod:** fixed mod file ([9caa997](https://github.com/SHU-red/GopherLetics/commit/9caa997a0fcf06756bb6d3b2e2043d48d96cfb36))
+
 ## [1.7.0](https://github.com/SHU-red/GopherLetics/compare/v1.6.0...v1.7.0) (2024-07-09)
 
 
