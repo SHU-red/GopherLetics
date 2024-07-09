@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/SHU-red/GopherLetics/compare/v1.3.0...v1.4.0) (2024-07-09)
+
+
+### Features
+
+* **actions:** change for build ([eb170c8](https://github.com/SHU-red/GopherLetics/commit/eb170c84337fb7f9cdc3db6c2d27d5333f7ffec7))
+
 ## [1.3.0](https://github.com/SHU-red/GopherLetics/compare/v1.2.0...v1.3.0) (2024-07-09)
 
 
