@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/SHU-red/GopherLetics/compare/v1.6.0...v1.7.0) (2024-07-09)
+
+
+### Features
+
+* **actions:** remove alsa alsa-base etc ([86202d3](https://github.com/SHU-red/GopherLetics/commit/86202d36c6b5ba4dbcb41a7ccf6a2c72629c24dd))
+
 ## [1.6.0](https://github.com/SHU-red/GopherLetics/compare/v1.5.0...v1.6.0) (2024-07-09)
 
 
