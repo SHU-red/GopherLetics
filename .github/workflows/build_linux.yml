@@ -19,7 +19,7 @@ jobs:
           github_token: ${{ secrets.BUILD }}
           goos: linux
           goarch: amd64
-          pre_command: "apt-get -y update ; apt-get -y upgrade ; apt-get -y -f install libasound2 libasound2-dev alsa alsa-base alsa-utils alsa-tools alsamixer libgl1-mesa-dev xorg-dev"
+          pre_command: "apt-get -y update ; apt-get -y upgrade ; apt-get -y -f install libasound2 libasound2-dev alsa alsa-base alsa-utils alsa-tools libgl1-mesa-dev xorg-dev"
           binary_name: GopherLetics_Linux_AMD64_X11
   release-linux-amd64_wayland:
     name: release linux/amd64 Wayland
@@ -31,6 +31,6 @@ jobs:
           github_token: ${{ secrets.BUILD }}
           goos: linux
           goarch: amd64
-          pre_command: "apt-get -y update ; apt-get -y upgrade ; apt-get -y -f install libasound2 libasound2-dev alsa alsa-base alsa-utils alsa-tools alsamixer libgl1-mesa-dev xorg-dev libwayland-dev libxkbcommon-dev qtwayland5 libwayland-egl-backend-dev libnvidia-egl-wayland-dev libegl1-mesa-dev"
+          pre_command: "apt-get -y update ; apt-get -y upgrade ; apt-get -y -f install libasound2 libasound2-dev alsa alsa-base alsa-utils alsa-tools libgl1-mesa-dev xorg-dev libwayland-dev libxkbcommon-dev qtwayland5 libwayland-egl-backend-dev libnvidia-egl-wayland-dev libegl1-mesa-dev"
           build_flags: -tags wayland
           binary_name: GopherLetics_Linux_AMD64_Wayland
