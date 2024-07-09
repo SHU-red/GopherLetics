@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.2](https://github.com/SHU-red/GopherLetics/compare/v1.7.1...v1.7.2) (2024-07-09)
+
+
+### Bug Fixes
+
+* **actions:** installing alsa ([04c0feb](https://github.com/SHU-red/GopherLetics/commit/04c0feb378b21c6b18393f90dfc7ce5e01692ecb))
+
 ## [1.7.1](https://github.com/SHU-red/GopherLetics/compare/v1.7.0...v1.7.1) (2024-07-09)
 
 
