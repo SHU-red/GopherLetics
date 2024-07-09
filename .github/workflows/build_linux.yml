@@ -4,9 +4,11 @@ on:
 
 permissions:
   contents: write
+  
   packages: write
 
 name: build_linux
+
 
 jobs:
   release-linux-amd64_x11:
