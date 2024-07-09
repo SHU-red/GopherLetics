@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/SHU-red/GopherLetics/compare/v1.4.0...v1.5.0) (2024-07-09)
+
+
+### Features
+
+* **actions:** force apt-get installation and add libasound ([f8e4f4c](https://github.com/SHU-red/GopherLetics/commit/f8e4f4c03bed555bbc4c8500d12cfbe98172792c))
+
 ## [1.4.0](https://github.com/SHU-red/GopherLetics/compare/v1.3.0...v1.4.0) (2024-07-09)
 
 
