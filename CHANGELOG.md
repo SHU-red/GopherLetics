@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/SHU-red/GopherLetics/compare/v1.1.4...v1.2.0) (2024-06-19)
+
+
+### Features
+
+* **tts:** Use temp folder for generated audiofiles ([9230086](https://github.com/SHU-red/GopherLetics/commit/923008687347aba6250fa406c08933c8398bfe49))
+
 ## [1.1.4](https://github.com/SHU-red/GopherLetics/compare/v1.1.3...v1.1.4) (2024-03-23)
 
 
