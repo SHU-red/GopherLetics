@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/SHU-red/GopherLetics/compare/v1.2.0...v1.3.0) (2024-07-09)
+
+
+### Features
+
+* **commitizen:** Added commitizen config ([9c66bb0](https://github.com/SHU-red/GopherLetics/commit/9c66bb08687e098c908cf9ef223e34731600ccaf))
+
 ## [1.2.0](https://github.com/SHU-red/GopherLetics/compare/v1.1.4...v1.2.0) (2024-06-19)
 
 
