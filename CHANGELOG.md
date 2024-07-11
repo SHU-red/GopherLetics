@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.3](https://github.com/SHU-red/GopherLetics/compare/v1.7.2...v1.7.3) (2024-07-11)
+
+
+### Bug Fixes
+
+* **build_linux:** Changed apt-get to apt and added libsdl2-dev ([a1bb8c0](https://github.com/SHU-red/GopherLetics/commit/a1bb8c0aebba99d2bd8cce0b8c4d14620271ae65))
+
 ## [1.7.2](https://github.com/SHU-red/GopherLetics/compare/v1.7.1...v1.7.2) (2024-07-09)
 
 
