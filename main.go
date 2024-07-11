@@ -43,7 +43,7 @@ func getArgs() {
 	args := os.Args[1:]
 
 	// Loop through Args
-	for i, _ := range args {
+	for i := range args {
 
 		if args[i] == "--debug" {
 			glob.Args.Debug = true
