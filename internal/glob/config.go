@@ -12,8 +12,8 @@ import (
 )
 
 type Config struct {
-	Workout Workout
-	Audio   Audio
+	Workout  Workout  `json:"workout"`
+	Settings Settings `json:"settings"`
 }
 
 // Add viper package to edit code
@@ -23,18 +23,30 @@ var Choices_Type = []string{"strength", "cardio"}
 var Choices_Level = []string{"beginner", "intermediate", "advanced"}
 var Choices_Area = []string{"full", "upper", "lower", "core"}
 
+// All Settings from workout popup
 type Workout struct {
-	Duration float64
-	Type     string
-	Area     string
-	Level    string
+	Duration float64 `json:"duration"`
+	Type     string  `json:"type"`
+	Area     string  `json:"area"`
+	Level    string  `json:"level"`
+}
+
+// All Settings of settings > audio
+type Settings struct {
+	Audio Audio      `json:"audio"`
+	Url   UrlTrigger `json:"urltrigger"`
 }
 
 type Audio struct {
-	Activate          bool
-	ActivateCountdown bool
-	ActivateExercise  bool
-	ActivatePause     bool
+	Activate          bool `json:"activate"`
+	ActivateCountdown bool `json:"activatecountdown"`
+	ActivateExercise  bool `json:"activateexercise"`
+	ActivatePause     bool `json:"activatepause"`
+}
+
+// All Settings of settings > URL trigger
+type UrlTrigger struct {
+	Url string `json:"url"`
 }
 
 // Declare Config Specific Variables
@@ -61,10 +73,10 @@ func Conf_initConf() {
 	Conf.Workout.Level = "beginner"
 
 	// Audio
-	Conf.Audio.Activate = true
-	Conf.Audio.ActivateCountdown = true
-	Conf.Audio.ActivateExercise = true
-	Conf.Audio.ActivatePause = true
+	Conf.Settings.Audio.Activate = true
+	Conf.Settings.Audio.ActivateCountdown = true
+	Conf.Settings.Audio.ActivateExercise = true
+	Conf.Settings.Audio.ActivatePause = true
 
 	// Create Config file if not already existing
 	if !checkFileExists(ConfPath) {
