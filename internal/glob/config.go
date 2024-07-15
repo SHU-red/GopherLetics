@@ -3,13 +3,18 @@ package glob
 import (
 	"errors"
 	"fmt"
-	"log"
 	"os"
 
 	"dario.cat/mergo"
 	"github.com/BurntSushi/toml"
 	"github.com/kirsle/configdir"
+	"github.com/spf13/viper"
+	"go.uber.org/zap"
 )
+
+// Config constants
+const conf_filename = "conf"
+const conf_extension = "toml"
 
 type Config struct {
 	Workout  Workout  `json:"workout"`
@@ -33,8 +38,8 @@ type Workout struct {
 
 // All Settings of settings > audio
 type Settings struct {
-	Audio Audio      `json:"audio"`
-	Url   UrlTrigger `json:"urltrigger"`
+	Audio      Audio      `json:"audio"`
+	UrlTrigger UrlTrigger `json:"urltrigger"`
 }
 
 type Audio struct {
@@ -54,51 +59,38 @@ var Conf Config     // Config Struct
 var ConfPath string // Config file Path
 
 // Initially Fill config Struct
-func Conf_initConf() {
+func Conf_initConf() error {
+
+	// Innitialize defaults
+	conf_setDefaults()
 
 	// Initialize Config File if not present
 	conffolder := configdir.LocalConfig("gopherletics")
 	err := configdir.MakePath(conffolder) // Ensure it exists.
 	if err != nil {
-		panic(err)
+		zap.L().Error("Could not create config folder", zap.Error(err))
+		return err
 	}
 
 	// Set Config File Path
-	ConfPath = conffolder + "/conf.toml"
+	viper.SetConfigName(conf_filename)
+	viper.SetConfigType(conf_extension)
+	viper.AddConfigPath(conffolder)
 
-	// Workout
-	Conf.Workout.Duration = 30
-	Conf.Workout.Type = "strength"
-	Conf.Workout.Area = "full"
-	Conf.Workout.Level = "beginner"
-
-	// Audio
-	Conf.Settings.Audio.Activate = true
-	Conf.Settings.Audio.ActivateCountdown = true
-	Conf.Settings.Audio.ActivateExercise = true
-	Conf.Settings.Audio.ActivatePause = true
-
-	// Create Config file if not already existing
-	if !checkFileExists(ConfPath) {
-		f, err := os.Create(ConfPath)
-		if err != nil {
-			// failed to create/open the file
-			log.Fatal(err)
-		}
-		if err := toml.NewEncoder(f).Encode(Conf); err != nil {
-			// failed to encode
-			log.Fatal(err)
-		}
-		if err := f.Close(); err != nil {
-			// failed to close the file
-			log.Fatal(err)
-
+	// Read Config File
+	if err := viper.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			// Config file not found; ignore error if desired
+		} else {
+			zap.L().Error("Error loading config file:", zap.Error(err))
 		}
 	}
 
 	// Debug
 	fmt.Println("Initialized Configuration:")
 	fmt.Print(Conf)
+
+	return nil
 
 }
 

@@ -7,6 +7,7 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 	"github.com/SHU-red/GopherLetics.git/internal/glob"
+	"github.com/spf13/viper"
 )
 
 // Popover for Workout settings
@@ -19,12 +20,12 @@ func workoutSettings() {
 	label_duration := widget.NewLabelWithData(dur)
 
 	slider_duration := widget.NewSlider(10, 60)
-	slider_duration.Value = float64(glob.Conf.Workout.Duration)
+	slider_duration.Value = viper.GetFloat64("Conf.Workout.Duration")
 	slider_duration.Bind(dur_bind)
 
 	label_type := widget.NewLabel("Type")
 	dropdown_type := widget.NewSelect(glob.Choices_Type, setType)
-	dropdown_type.Selected = glob.Conf.Workout.Type
+	dropdown_type.Selected = viper.GetString("Conf.Workout.Type")
 
 	label_level := widget.NewLabel("Level")
 	dropdown_level := widget.NewSelect(glob.Choices_Level, setLevel)
@@ -32,7 +33,7 @@ func workoutSettings() {
 
 	label_area := widget.NewLabel("Area")
 	dropdown_area := widget.NewSelect(glob.Choices_Area, setArea)
-	dropdown_area.Selected = glob.Conf.Workout.Area
+	dropdown_area.Selected = viper.GetString("Conf.Workout.Area")
 
 	// Generate a Widget List
 	box := container.New(layout.NewFormLayout(), label_duration, slider_duration, label_type, dropdown_type, label_level, dropdown_level, label_area, dropdown_area)
@@ -50,17 +51,17 @@ func workoutSettings() {
 
 // Set Type from Dropdown
 func setType(choice string) {
-	glob.Conf.Workout.Type = choice
+	viper.Set("Conf.Workout.Type", choice)
 }
 
 // Set Type from Dropdown
 func setLevel(choice string) {
-	glob.Conf.Workout.Level = choice
+	viper.Set("Conf.Workout.Level", choice)
 }
 
 // Set Area from Dropdown
 func setArea(choice string) {
-	glob.Conf.Workout.Area = choice
+	viper.Set("Conf.Workout.Area", choice)
 }
 
 func settingsSettings() {
@@ -72,20 +73,21 @@ func settingsSettings() {
 	label_duration := widget.NewLabelWithData(dur)
 
 	slider_duration := widget.NewSlider(10, 60)
-	slider_duration.Value = float64(glob.Conf.Workout.Duration)
+	slider_duration.Value = viper.GetFloat64("Conf.Workout.Duration")
+
 	slider_duration.Bind(dur_bind)
 
 	label_type := widget.NewLabel("Type")
 	dropdown_type := widget.NewSelect(glob.Choices_Type, setType)
-	dropdown_type.Selected = glob.Conf.Workout.Type
+	dropdown_type.Selected = viper.GetString("Conf.Workout.Type")
 
 	label_level := widget.NewLabel("Level")
 	dropdown_level := widget.NewSelect(glob.Choices_Level, setLevel)
-	dropdown_level.Selected = glob.Conf.Workout.Level
+	dropdown_level.Selected = viper.GetString("Conf.Workout.Level")
 
 	label_area := widget.NewLabel("Area")
 	dropdown_area := widget.NewSelect(glob.Choices_Area, setArea)
-	dropdown_area.Selected = glob.Conf.Workout.Area
+	dropdown_area.Selected = viper.GetString("Conf.Workout.Area")
 
 	// Generate a Widget List
 	box := container.New(layout.NewFormLayout(), label_duration, slider_duration, label_type, dropdown_type, label_level, dropdown_level, label_area, dropdown_area)
