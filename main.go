@@ -9,6 +9,7 @@ import (
 	"github.com/SHU-red/GopherLetics.git/internal/glob"
 	"github.com/SHU-red/GopherLetics.git/internal/gui"
 	"github.com/SHU-red/GopherLetics.git/internal/tts"
+	"github.com/SHU-red/GopherLetics.git/internal/workout"
 	"go.uber.org/zap"
 )
 
@@ -25,6 +26,8 @@ func main() {
 	glob.Conf_initConf()
 	// Init speech
 	tts.SpeakInit()
+	// Fetch all exercises
+	workout.FetchAllExercises()
 
 	// Run GUI
 	gui.Main()

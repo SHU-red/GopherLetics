@@ -3,7 +3,6 @@ package gui
 import (
 	"fmt"
 	"net/url"
-	"os/exec"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -53,6 +52,9 @@ func Main() {
 	a := app.New()
 	w = a.NewWindow("GopherLetics")
 
+	// Show Image Window
+	go ShowImageWindow(a)
+
 	// URLs
 	url_gopherletics, err := url.Parse("https://github.com/SHU-red/GopherLetics")
 	if err != nil {
@@ -87,7 +89,7 @@ func Main() {
 	playbutton.OnTapped = func() { toggleplay(&playbutton) }
 
 	// ToolBar
-	toolbar := container.NewHBox(widget.NewButtonWithIcon("", theme.MediaSkipPreviousIcon(), func() {}), &playbutton, widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), func() {}))
+	toolbar := container.NewHBox(widget.NewButtonWithIcon("", theme.MediaSkipPreviousIcon(), previousExercise), &playbutton, widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), nextExercise))
 
 	low_left := container.NewHBox(widget.NewButtonWithIcon("Workout", theme.AccountIcon(), workoutSettings), widget.NewButtonWithIcon("Refresh", theme.ViewRefreshIcon(), refresh))
 	// Menu
@@ -154,6 +156,40 @@ func Main() {
 	w.ShowAndRun()
 }
 
+func nextExercise() {
+	currentIndex := glob.Gui.WorkoutNr
+	for i := currentIndex + 1; i < len(workout.Wo); i++ {
+		if workout.Wo[i].Ty == "exercise" {
+			SwitchWorkout(i)
+			return
+		}
+	}
+	// If no next exercise found, loop back to the first exercise
+	for i := 0; i < len(workout.Wo); i++ {
+		if workout.Wo[i].Ty == "exercise" {
+			SwitchWorkout(i)
+			return
+		}
+	}
+}
+
+func previousExercise() {
+	currentIndex := glob.Gui.WorkoutNr
+	for i := currentIndex - 1; i >= 0; i-- {
+		if workout.Wo[i].Ty == "exercise" {
+			SwitchWorkout(i)
+			return
+		}
+	}
+	// If no previous exercise found, loop back to the last exercise
+	for i := len(workout.Wo) - 1; i >= 0; i-- {
+		if workout.Wo[i].Ty == "exercise" {
+			SwitchWorkout(i)
+			return
+		}
+	}
+}
+
 func refresh() {
 
 	// Pull new Workout
@@ -164,9 +200,6 @@ func refresh() {
 
 		// Switch workout
 		SwitchWorkout(0)
-
-		// Load first exercise in browser
-		go ShowWorkout(glob.Gui.WorkoutNr, true)
 
 		// Update content
 		update_all()
@@ -251,36 +284,29 @@ func SwitchWorkout(x int) {
 		go tts.Speak(workout.Wo[i].Na)
 	}
 
+	// Update Image
+	if workout.Wo[i].Ty == "rest" || workout.Wo[i].Ty == "transition" {
+		if nextExercise := findNextExercise(i); nextExercise != nil {
+			go UpdateImage(nextExercise.Na)
+		}
+	} else {
+		go UpdateImage(workout.Wo[i].Na)
+	}
+
 	// Update All
 	update_all()
 
 }
 
+func findNextExercise(currentIndex int) *workout.Workout {
+	for i := currentIndex + 1; i < len(workout.Wo); i++ {
+		if workout.Wo[i].Ty == "exercise" {
+			return &workout.Wo[i]
+		}
+	}
+	return nil
+}
+
 // Show workout in Browser
 func ShowWorkout(x int, force bool) {
-
-	// If force is true
-	if force {
-		_ = exec.Command("xdg-open", "https://www.youtube.com/results?search_query="+workout.Wo[x].Na+" Exercise").Start()
-		return
-	}
-
-	// Start analyzing beginning from the next exercise
-	x++
-
-	// Ignore headings
-	for workout.Wo[x].Ty == "heading" && x < len(workout.Wo) {
-		x++
-	}
-
-	// If end is not already reached and last shown is not the same as current
-	if x < len(workout.Wo) && workout.Wo[x].Ty == "exercise" && last_shown_workout != workout.Wo[x].Na {
-
-		// Store opened Workout for check next time
-		last_shown_workout = workout.Wo[x].Na
-
-		// Concurrently open browser for showing the workout
-		_ = exec.Command("xdg-open", "https://www.youtube.com/results?search_query="+workout.Wo[x].Na+" Exercise").Start()
-	}
-
 }

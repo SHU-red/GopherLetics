@@ -1,8 +1,10 @@
 package workout
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"regexp"
@@ -11,6 +13,7 @@ import (
 
 	"github.com/kr/pretty"
 	"github.com/spf13/viper"
+	"go.uber.org/zap"
 )
 
 // GopherLetics style of stepwise Workout
@@ -24,6 +27,45 @@ type Workout struct {
 type Workouts []Workout
 
 var Wo Workouts
+
+// All Exercises from everkinetic
+type Exercise struct {
+	Name        string   `json:"name"`
+	Title       string   `json:"title"`
+	Primary     []string `json:"primary_muscles"`
+	Secondary   []string `json:"secondary_muscles"`
+	Instruction []string `json:"instructions"`
+	Images      []string `json:"images"`
+	Img         []string `json:"img"`
+	Videos      []string `json:"videos"`
+	Force       string   `json:"force"`
+	Level       string   `json:"level"`
+	Category    string   `json:"category"`
+}
+
+type Exercises []Exercise
+
+var AllExercises Exercises
+
+func FetchAllExercises() {
+	resp, err := http.Get("https://raw.githubusercontent.com/everkinetic/data/main/exercises.json")
+	if err != nil {
+		zap.L().Error("failed to fetch exercises", zap.Error(err))
+		return
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		zap.L().Error("failed to read response body", zap.Error(err))
+		return
+	}
+
+	if err := json.Unmarshal(body, &AllExercises); err != nil {
+		zap.L().Error("failed to unmarshal exercises", zap.Error(err))
+		return
+	}
+}
 
 // Fetch new Workout via HTTP
 func (wo *Workouts) Fetch() {
@@ -66,10 +108,10 @@ func (wo *Workouts) Fetch() {
 	for _, l := range lines {
 
 		// Regex Pre-definition
-		r_h, _ := regexp.Compile(".*\"(.*)\": \\[.*")    // Heading
-		r_e, _ := regexp.Compile(".*\"ex\": \"(.*)\".*") // Exercise
-		r_d, _ := regexp.Compile(".*\"du\": ([0-9]+).*") // Duration
-		r_r, _ := regexp.Compile(".*\"re\": ([0-9]+).*") // Rest
+		r_h, _ := regexp.Compile(`"(.*)": \[`)    // Heading
+		r_e, _ := regexp.Compile(`"ex": "(.*)"`) // Exercise
+		r_d, _ := regexp.Compile(`"du": ([0-9]+)`) // Duration
+		r_r, _ := regexp.Compile(`"re": ([0-9]+)`) // Rest
 
 		// If Heading
 		if r_h.MatchString(l) {
@@ -124,7 +166,6 @@ func (wo *Workouts) Fetch() {
 			Wo[w].Du = b
 
 		}
-
 		// If Rest
 		if r_r.MatchString(l) {
 
