@@ -23,8 +23,6 @@ func main() {
 
 	// Initialize Configuration with default values
 	glob.Conf_initConf()
-	// Overwrite Configuration from config-file
-	glob.Conf_Load()
 	// Init speech
 	tts.SpeakInit()
 

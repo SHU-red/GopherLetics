@@ -1,12 +1,8 @@
 package glob
 
 import (
-	"errors"
 	"fmt"
-	"os"
 
-	"dario.cat/mergo"
-	"github.com/BurntSushi/toml"
 	"github.com/kirsle/configdir"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -81,9 +77,18 @@ func Conf_initConf() error {
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 			// Config file not found; ignore error if desired
+			err := viper.WriteConfigAs(conffolder + "/" + conf_filename + "." + conf_extension)
+			if err != nil {
+				zap.L().Error("Could not write config file", zap.Error(err))
+			}
 		} else {
 			zap.L().Error("Error loading config file:", zap.Error(err))
 		}
+	}
+
+	err = viper.Unmarshal(&Conf)
+	if err != nil {
+		zap.L().Error("Could not unmarshal config file", zap.Error(err))
 	}
 
 	// Debug
@@ -94,36 +99,10 @@ func Conf_initConf() error {
 
 }
 
-// Load current Config
-func Conf_Load() {
-
-	// Temporary Configuration for later Merge
-	var tempconf Config
-
-	// Load Config from File
-	if _, err := toml.DecodeFile(ConfPath, &tempconf); err != nil {
-		panic(err)
-	}
-
-	// (Overwriting-)Merge of temporary loaded Conf into Initialized Conf
-	if err := mergo.Merge(&Conf, tempconf, mergo.WithOverride); err != nil {
-		panic(err)
-	}
-
-	// Loaded Config File
-	fmt.Println("Initialized Configuration:")
-	fmt.Print(Conf)
-
-}
-
 // Write current Config
 func Conf_Write() {
-
-}
-
-// Check if a file exists
-func checkFileExists(filePath string) bool {
-	_, error := os.Stat(filePath)
-	//return !os.IsNotExist(err)
-	return !errors.Is(error, os.ErrNotExist)
+	err := viper.WriteConfig()
+	if err != nil {
+		zap.L().Error("Could not write config file", zap.Error(err))
+	}
 }

@@ -1,24 +1,22 @@
 package glob
 
-import (
-	"github.com/spf13/viper"
-)
+import "github.com/spf13/viper"
 
 // Set all default config values
 func conf_setDefaults() {
 
 	// Workout
-	viper.SetDefault("Conf.Workout.Duration", "30")
-	viper.SetDefault("Conf.Workout.Type", "strength")
-	viper.SetDefault("Conf.Workout.Area", "full")
-	viper.SetDefault("Conf.Workout.Level", "beginner")
+	viper.SetDefault("workout.duration", "30")
+	viper.SetDefault("workout.type", "strength")
+	viper.SetDefault("workout.area", "full")
+	viper.SetDefault("workout.level", "beginner")
 
 	// Audio
-	viper.SetDefault("Conf.Settings.Audio.Activate", true)
-	viper.SetDefault("Conf.Settings.Audio.ActivateCountdown", true)
-	viper.SetDefault("Conf.Settings.Audio.ActivateExercise", true)
-	viper.SetDefault("Conf.Settings.Audio.ActivatePause", true)
+	viper.SetDefault("settings.audio.activate", true)
+	viper.SetDefault("settings.audio.activatecountdown", true)
+	viper.SetDefault("settings.audio.activateexercise", true)
+	viper.SetDefault("settings.audio.activatepause", true)
 
 	// Url Trigger
-	viper.SetDefault("Conf.Settings.UrlTrigger.Url", "https://www.youtube.com/results?search_query=%s")
+	viper.SetDefault("settings.urltrigger.url", "https://www.youtube.com/results?search_query=%s")
 }
