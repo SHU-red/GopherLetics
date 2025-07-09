@@ -9,7 +9,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/SHU-red/GopherLetics.git/internal/glob"
 	"github.com/kr/pretty"
 	"github.com/spf13/viper"
 )
@@ -33,7 +32,7 @@ func (wo *Workouts) Fetch() {
 	Wo = Workouts{}
 
 	// Build URL from current config
-	url := "https://api.sebhulse.com/v1/workout/?type=" + viper.GetString("glob.Conf.Workout.Type") + "&area=" + viper.GetString("glob.Conf.Workout.Area") + "&level=" + viper.GetString("glob.Conf.Workout.Level") + "&duration=" + fmt.Sprintf("%.0f", glob.Conf.Workout.Duration)
+	url := "https://api.sebhulse.com/v1/workout/?type=" + viper.GetString("workout.type") + "&area=" + viper.GetString("workout.area") + "&level=" + viper.GetString("workout.level") + "&duration=" + viper.GetString("workout.duration")
 
 	// Debug
 	println(url)
