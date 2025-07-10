@@ -54,6 +54,18 @@ type UrlTrigger struct {
 var Conf Config     // Config Struct
 var ConfPath string // Config file Path
 
+func conf_setDefaults() {
+	viper.SetDefault("settings.audio.activate", true)
+	viper.SetDefault("settings.audio.activatecountdown", true)
+	viper.SetDefault("settings.audio.activateexercise", true)
+	viper.SetDefault("settings.audio.activatepause", true)
+
+	viper.SetDefault("workout.duration", 30.0)
+	viper.SetDefault("workout.type", "strength")
+	viper.SetDefault("workout.area", "full")
+	viper.SetDefault("workout.level", "beginner")
+}
+
 // Initially Fill config Struct
 func Conf_initConf() error {
 
@@ -76,7 +88,7 @@ func Conf_initConf() error {
 	// Read Config File
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			// Config file not found; ignore error if desired
+			// Config file not found, write defaults
 			err := viper.WriteConfigAs(conffolder + "/" + conf_filename + "." + conf_extension)
 			if err != nil {
 				zap.L().Error("Could not write config file", zap.Error(err))
@@ -86,6 +98,7 @@ func Conf_initConf() error {
 		}
 	}
 
+	// Unmarshal the config into the Conf struct
 	err = viper.Unmarshal(&Conf)
 	if err != nil {
 		zap.L().Error("Could not unmarshal config file", zap.Error(err))
@@ -105,4 +118,11 @@ func Conf_Write() {
 	if err != nil {
 		zap.L().Error("Could not write config file", zap.Error(err))
 	}
+
+	// Re-unmarshal the config to update the in-memory struct
+	err = viper.Unmarshal(&Conf)
+	if err != nil {
+		zap.L().Error("Could not unmarshal config after write", zap.Error(err))
+	}
 }
+

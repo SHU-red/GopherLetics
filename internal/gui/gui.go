@@ -3,11 +3,13 @@ package gui
 import (
 	"fmt"
 	"net/url"
+	"strconv"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
@@ -15,6 +17,7 @@ import (
 	"github.com/SHU-red/GopherLetics.git/internal/tts"
 	"github.com/SHU-red/GopherLetics.git/internal/workout"
 	"github.com/kr/pretty"
+	"github.com/spf13/viper"
 	"go.uber.org/zap"
 )
 
@@ -121,6 +124,9 @@ func Main() {
 
 	// Set Content
 	w.SetContent(&content)
+
+	// Refresh on startup
+	refresh()
 
 	// Catch Keyboard strokes
 	w.Canvas().SetOnTypedKey(func(k *fyne.KeyEvent) {
@@ -309,4 +315,95 @@ func findNextExercise(currentIndex int) *workout.Workout {
 
 // Show workout in Browser
 func ShowWorkout(x int, force bool) {
+}
+
+func settings() {
+
+	// Create Checkboxes
+	activateAudio := widget.NewCheck("Activate Audio", func(b bool) {
+		viper.Set("settings.audio.activate", b)
+		glob.Conf_Write()
+	})
+	activateAudio.SetChecked(viper.GetBool("settings.audio.activate"))
+
+	activateCountdown := widget.NewCheck("Activate Countdown", func(b bool) {
+		viper.Set("settings.audio.activatecountdown", b)
+		glob.Conf_Write()
+	})
+	activateCountdown.SetChecked(viper.GetBool("settings.audio.activatecountdown"))
+
+	activateExercise := widget.NewCheck("Activate Exercise speech", func(b bool) {
+		viper.Set("settings.audio.activateexercise", b)
+		glob.Conf_Write()
+	})
+	activateExercise.SetChecked(viper.GetBool("settings.audio.activateexercise"))
+
+	activatePause := widget.NewCheck("Activate Pause speech", func(b bool) {
+		viper.Set("settings.audio.activatepause", b)
+		glob.Conf_Write()
+	})
+	activatePause.SetChecked(viper.GetBool("settings.audio.activatepause"))
+
+	// Create Form
+	items := []*widget.FormItem{
+		widget.NewFormItem("", activateAudio),
+		widget.NewFormItem("", activateCountdown),
+		widget.NewFormItem("", activateExercise),
+		widget.NewFormItem("", activatePause),
+	}
+	form := widget.NewForm(items...)
+
+	// Show Dialog
+	dialog.ShowCustomConfirm("Settings", "Save", "Cancel", form, func(b bool) {
+		if b {
+			// Save settings (already done by checkbox callbacks)
+		}
+	}, w)
+}
+
+func workoutSettings() {
+
+	// Create form elements for workout settings
+	durationEntry := widget.NewEntry()
+	durationEntry.SetPlaceHolder("Duration (minutes)")
+	durationEntry.SetText(fmt.Sprintf("%.0f", glob.Conf.Workout.Duration))
+
+	typeSelect := widget.NewSelect(glob.Choices_Type, func(s string) {
+		// This will be handled on save
+	})
+	typeSelect.SetSelected(glob.Conf.Workout.Type)
+
+	areaSelect := widget.NewSelect(glob.Choices_Area, func(s string) {
+		// This will be handled on save
+	})
+	areaSelect.SetSelected(glob.Conf.Workout.Area)
+
+	levelSelect := widget.NewSelect(glob.Choices_Level, func(s string) {
+		// This will be handled on save
+	})
+	levelSelect.SetSelected(glob.Conf.Workout.Level)
+
+	// Create a form with the workout settings
+	form := widget.NewForm(
+		widget.NewFormItem("Duration", durationEntry),
+		widget.NewFormItem("Type", typeSelect),
+		widget.NewFormItem("Area", areaSelect),
+		widget.NewFormItem("Level", levelSelect),
+	)
+
+	// Show Dialog
+	dialog.ShowCustomConfirm("Workout Settings", "Save", "Cancel", form, func(b bool) {
+		if b {
+			// Update glob.Conf with new values
+			if d, err := strconv.ParseFloat(durationEntry.Text, 64); err == nil {
+				viper.Set("workout.duration", d)
+			}
+			viper.Set("workout.type", typeSelect.Selected)
+			viper.Set("workout.area", areaSelect.Selected)
+			viper.Set("workout.level", levelSelect.Selected)
+
+			// Write to config file
+			glob.Conf_Write()
+		}
+	}, w)
 }

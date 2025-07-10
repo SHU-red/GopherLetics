@@ -44,8 +44,8 @@ func UpdateImage(exerciseName string) {
 
 			img := canvas.NewImageFromReader(resp.Body, imageName)
 			img.FillMode = canvas.ImageFillContain
-			currentExerciseLabel := widget.NewLabel("Current: " + exerciseName)
-			foundExerciseLabel := widget.NewLabel("Found: " + bestMatch.Title)
+			currentExerciseLabel := widget.NewLabel("Current active exercise: " + exerciseName)
+			foundExerciseLabel := widget.NewLabel("Closest Everkinetic match: " + bestMatch.Title)
 			license := widget.NewLabel("Images provided by everkinetic (CC-BY-SA-4.0)")
 			infoBox := container.NewVBox(currentExerciseLabel, foundExerciseLabel, license)
 			content := container.NewBorder(nil, infoBox, nil, nil, img)
