@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.8.0](https://github.com/SHU-red/GopherLetics/compare/v1.7.3...v1.8.0) (2025-07-10)
+
+
+### Features
+
+* Add Windows and macOS builds to GitHub Actions ([8fd3901](https://github.com/SHU-red/GopherLetics/commit/8fd390158b460542daf5309335ffe08b582269ad))
+* Improve README and configuration handling ([66c7fb1](https://github.com/SHU-red/GopherLetics/commit/66c7fb150184a9ae3967a20818b8b87091edbf58))
+* **settings:** extend settings struct ([b18cad8](https://github.com/SHU-red/GopherLetics/commit/b18cad845dbb4aa1c11f717b0b287e8f71f1c06c))
+* **update:** Update 3rd party packages fyne, toml and zap ([2533a4e](https://github.com/SHU-red/GopherLetics/commit/2533a4e7aeb132bfa28815413041269d08cab460))
+* **viper:** Start using viper for configuration reads and writes ([d07fdf9](https://github.com/SHU-red/GopherLetics/commit/d07fdf9f0e3ea3ce984702128c2711c5b85bc9dd))
+
 ## [1.7.3](https://github.com/SHU-red/GopherLetics/compare/v1.7.2...v1.7.3) (2024-07-11)
 
 
