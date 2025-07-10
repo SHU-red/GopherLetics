@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.7](https://github.com/SHU-red/GopherLetics/compare/v1.12.6...v1.12.7) (2025-07-10)
+
+
+### Bug Fixes
+
+* Correct YAML structure of jobs block in cross-compile.yml ([f2ef3cb](https://github.com/SHU-red/GopherLetics/commit/f2ef3cb967ff1bf87f0527dbfa9e2ae2fcb78f2c))
+
 ## [1.12.6](https://github.com/SHU-red/GopherLetics/compare/v1.12.5...v1.12.6) (2025-07-10)
 
 
