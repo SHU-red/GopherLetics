@@ -14,6 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      release-linux-amd64:
+    name: release linux/amd64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
@@ -22,12 +27,13 @@ jobs:
         run: go install github.com/fyne-io/fyne-cross@latest
       - name: Add Go bin to PATH
         run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+      - name: Build and move Linux binary
+        run: fyne-cross linux -appID com.gopherletics.app -arch amd64 && mv fyne-cross/dist/linux-amd64/GopherLetics_Linux_AMD64 .
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.BUILD }}
           goos: linux
           goarch: amd64
-          pre_command: "fyne-cross linux -appID com.gopherletics.app -arch amd64 && mv fyne-cross/dist/linux-amd64/GopherLetics_Linux_AMD64 ."
           binary_name: GopherLetics_Linux_AMD64
 
   release-windows-amd64:
@@ -40,15 +46,16 @@ jobs:
         with:
           go-version: '1.22'
       - name: Install mingw-w64
-        run: apt-get -y update && apt-get -y install mingw-w64
+        run: sudo apt-get -y update && sudo apt-get -y install mingw-w64
       - name: Install fyne-cross
         run: go install github.com/fyne-io/fyne-cross@latest
       - name: Add Go bin to PATH
         run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+      - name: Build and move Windows binary
+        run: fyne-cross windows -appID com.gopherletics.app -arch amd64 && mv fyne-cross/dist/windows-amd64/GopherLetics_Windows_AMD64 .
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.BUILD }}
           goos: windows
           goarch: amd64
-          pre_command: "fyne-cross windows -appID com.gopherletics.app -arch amd64 && mv fyne-cross/dist/windows-amd64/GopherLetics_Windows_AMD64 ."
           binary_name: GopherLetics_Windows_AMD64
