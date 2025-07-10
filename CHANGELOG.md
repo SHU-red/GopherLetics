@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.8](https://github.com/SHU-red/GopherLetics/compare/v1.12.7...v1.12.8) (2025-07-10)
+
+
+### Bug Fixes
+
+* Rewrite cross-compile.yml with correct YAML structure ([538c472](https://github.com/SHU-red/GopherLetics/commit/538c4720082fe9bf791ad5627cc25357b1427275))
+
 ## [1.12.7](https://github.com/SHU-red/GopherLetics/compare/v1.12.6...v1.12.7) (2025-07-10)
 
 
