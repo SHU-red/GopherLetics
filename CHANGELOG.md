@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.9](https://github.com/SHU-red/GopherLetics/compare/v1.12.8...v1.12.9) (2025-07-10)
+
+
+### Bug Fixes
+
+* Correct fyne-cross appID flag to app-id ([df0893e](https://github.com/SHU-red/GopherLetics/commit/df0893e320986fad9edc7b2ebfb357f6d87110a5))
+
 ## [1.12.8](https://github.com/SHU-red/GopherLetics/compare/v1.12.7...v1.12.8) (2025-07-10)
 
 
