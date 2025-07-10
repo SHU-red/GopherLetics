@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.4](https://github.com/SHU-red/GopherLetics/compare/v1.12.3...v1.12.4) (2025-07-10)
+
+
+### Bug Fixes
+
+* Add appID to fyne-cross and ensure fyne-cross is in PATH ([8822083](https://github.com/SHU-red/GopherLetics/commit/8822083fc58ab063352af4db706ee4620af3214e))
+
 ## [1.12.3](https://github.com/SHU-red/GopherLetics/compare/v1.12.2...v1.12.3) (2025-07-10)
 
 
