@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.6](https://github.com/SHU-red/GopherLetics/compare/v1.12.5...v1.12.6) (2025-07-10)
+
+
+### Bug Fixes
+
+* Remove duplicate job definition in cross-compile.yml ([dca7b6f](https://github.com/SHU-red/GopherLetics/commit/dca7b6ffaaf9f20dc764bc6c197ef066c459fee6))
+
 ## [1.12.5](https://github.com/SHU-red/GopherLetics/compare/v1.12.4...v1.12.5) (2025-07-10)
 
 
