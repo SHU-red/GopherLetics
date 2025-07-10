@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.1](https://github.com/SHU-red/GopherLetics/compare/v1.12.0...v1.12.1) (2025-07-10)
+
+
+### Bug Fixes
+
+* Correct fyne-cross build commands in cross-compile workflow ([9e3d6a7](https://github.com/SHU-red/GopherLetics/commit/9e3d6a76884caea051f9ee64bdcb2e669b1bfddf))
+
 ## [1.12.0](https://github.com/SHU-red/GopherLetics/compare/v1.11.0...v1.12.0) (2025-07-10)
 
 
