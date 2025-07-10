@@ -31,7 +31,7 @@ jobs:
           github_token: ${{ secrets.BUILD }}
           goos: linux
           goarch: amd64
-          pre_command: "apt-get -y update ; apt-get -y upgrade ; apt -y -f install libasound2-dev libudev-dev libsdl2-dev ; apt-get -y -f install alsa-utils alsa-tools libgl1-mesa-dev xorg-dev libwayland-dev libxkbcommon-dev qtwayland5 libwayland-egl-backend-dev libnvidia-egl-wayland-dev libegl1-mesa-dev"
+          pre_command: "apt-get -y update ; apt-get -y upgrade ; apt -y -f install libasound2-dev libudev-dev libsdl2-dev ; apt-get -y -f install alsa-utils alsa-tools libgl1-mesa-dev xorg-dev libwayland-dev libxkbcommon-dev qtwayland5 libwayland-egl-backend-dev libnvidia-egl-wayland-dev libegl1-mesa-dev ; go mod tidy ; go get -u all"
           build_flags: -tags wayland
           binary_name: GopherLetics_Linux_AMD64_Wayland
   release-windows-amd64:
@@ -44,6 +44,7 @@ jobs:
           github_token: ${{ secrets.BUILD }}
           goos: windows
           goarch: amd64
+          pre_command: "apt-get -y update ; apt-get -y install mingw-w64"
           binary_name: GopherLetics_Windows_AMD64
   release-macos-amd64:
     name: release macos/amd64
@@ -55,4 +56,5 @@ jobs:
           github_token: ${{ secrets.BUILD }}
           goos: darwin
           goarch: amd64
+          pre_command: "apt-get -y update ; apt-get -y install ossxcross"
           binary_name: GopherLetics_macOS_AMD64
