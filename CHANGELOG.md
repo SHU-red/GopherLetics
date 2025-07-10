@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/SHU-red/GopherLetics/compare/v1.10.0...v1.11.0) (2025-07-10)
+
+
+### Features
+
+* Update cross-compile workflow to trigger on release and attach assets ([0b34ca4](https://github.com/SHU-red/GopherLetics/commit/0b34ca402b3fdbe7d16db326f73dacf99ebfa4c4))
+
 ## [1.10.0](https://github.com/SHU-red/GopherLetics/compare/v1.9.0...v1.10.0) (2025-07-10)
 
 
