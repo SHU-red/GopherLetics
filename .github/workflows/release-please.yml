@@ -21,3 +21,4 @@ jobs:
           # this is a built-in strategy in release-please, see "Action Inputs"
           # for more options
           release-type: simple
+          last-release-ref: v1.9.0
