@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.10](https://github.com/SHU-red/GopherLetics/compare/v1.12.9...v1.12.10) (2025-07-10)
+
+
+### Bug Fixes
+
+* Correct Windows binary name and move command in cross-compile.yml ([0449fcd](https://github.com/SHU-red/GopherLetics/commit/0449fcd072ff5e986fb569aa114355b8cee9769e))
+
 ## [1.12.9](https://github.com/SHU-red/GopherLetics/compare/v1.12.8...v1.12.9) (2025-07-10)
 
 
