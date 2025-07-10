@@ -19,7 +19,7 @@ jobs:
           github_token: ${{ secrets.BUILD }}
           goos: linux
           goarch: amd64
-          pre_command: "go install github.com/fyne-io/fyne-cross@latest && fyne-cross build -os linux -arch amd64"
+          pre_command: "go install github.com/fyne-io/fyne-cross@latest && fyne-cross linux -arch amd64"
           binary_name: GopherLetics_Linux_AMD64
 
   release-windows-amd64:
@@ -32,5 +32,5 @@ jobs:
           github_token: ${{ secrets.BUILD }}
           goos: windows
           goarch: amd64
-          pre_command: "go install github.com/fyne-io/fyne-cross@latest && fyne-cross windows -arch amd64"
+          pre_command: "apt-get -y update && apt-get -y install mingw-w64 && go install github.com/fyne-io/fyne-cross@latest && fyne-cross windows -arch amd64"
           binary_name: GopherLetics_Windows_AMD64
