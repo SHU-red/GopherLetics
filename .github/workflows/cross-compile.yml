@@ -1,0 +1,36 @@
+name: Cross-Compile Fyne Application
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release-linux-amd64:
+    name: release linux/amd64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: wangyoucao577/go-release-action@v1
+        with:
+          github_token: ${{ secrets.BUILD }}
+          goos: linux
+          goarch: amd64
+          pre_command: "go install github.com/fyne-io/fyne-cross@latest && fyne-cross build -os linux -arch amd64"
+          binary_name: GopherLetics_Linux_AMD64
+
+  release-windows-amd64:
+    name: release windows/amd64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: wangyoucao577/go-release-action@v1
+        with:
+          github_token: ${{ secrets.BUILD }}
+          goos: windows
+          goarch: amd64
+          pre_command: "go install github.com/fyne-io/fyne-cross@latest && fyne-cross build -os windows -arch amd64"
+          binary_name: GopherLetics_Windows_AMD64
