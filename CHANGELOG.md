@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.5](https://github.com/SHU-red/GopherLetics/compare/v1.12.4...v1.12.5) (2025-07-10)
+
+
+### Bug Fixes
+
+* Separate fyne-cross and mingw-w64 setup, add sudo to apt-get ([9507138](https://github.com/SHU-red/GopherLetics/commit/9507138f864d9245b25ba5d13238eefb9b5c4cb6))
+
 ## [1.12.4](https://github.com/SHU-red/GopherLetics/compare/v1.12.3...v1.12.4) (2025-07-10)
 
 
