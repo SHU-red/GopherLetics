@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.2](https://github.com/SHU-red/GopherLetics/compare/v1.12.1...v1.12.2) (2025-07-10)
+
+
+### Bug Fixes
+
+* Correct fyne-cross commands and include mingw-w64 for Windows build. Also includes unintended changes to build_linux.yml ([a13f48a](https://github.com/SHU-red/GopherLetics/commit/a13f48aeca4361b7ac40f8caa971dde096a3c7b6))
+
 ## [1.12.1](https://github.com/SHU-red/GopherLetics/compare/v1.12.0...v1.12.1) (2025-07-10)
 
 
