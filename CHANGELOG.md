@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.3](https://github.com/SHU-red/GopherLetics/compare/v1.12.2...v1.12.3) (2025-07-10)
+
+
+### Bug Fixes
+
+* Ensure fyne-cross is in PATH and move binaries for go-release-action ([dc11d4a](https://github.com/SHU-red/GopherLetics/commit/dc11d4a0031a698d3bf469a953fd17ef76448be3))
+
 ## [1.12.2](https://github.com/SHU-red/GopherLetics/compare/v1.12.1...v1.12.2) (2025-07-10)
 
 
