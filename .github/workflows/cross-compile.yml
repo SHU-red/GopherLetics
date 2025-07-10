@@ -23,7 +23,7 @@ jobs:
       - name: Add Go bin to PATH
         run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
       - name: Build and move Linux binary
-        run: fyne-cross linux -appID com.gopherletics.app -arch amd64 && mv fyne-cross/dist/linux-amd64/GopherLetics_Linux_AMD64 .
+        run: fyne-cross linux -app-id com.gopherletics.app -arch amd64 && mv fyne-cross/dist/linux-amd64/GopherLetics_Linux_AMD64 .
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.BUILD }}
@@ -47,7 +47,7 @@ jobs:
       - name: Add Go bin to PATH
         run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
       - name: Build and move Windows binary
-        run: fyne-cross windows -appID com.gopherletics.app -arch amd64 && mv fyne-cross/dist/windows-amd64/GopherLetics_Windows_AMD64 .
+        run: fyne-cross windows -app-id com.gopherletics.app -arch amd64 && mv fyne-cross/dist/windows-amd64/GopherLetics_Windows_AMD64 .
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.BUILD }}
