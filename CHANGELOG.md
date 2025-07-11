@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.11](https://github.com/SHU-red/GopherLetics/compare/v1.12.10...v1.12.11) (2025-07-11)
+
+
+### Bug Fixes
+
+* Install libasound2-dev inside fyne-cross container for Linux build ([7b716bc](https://github.com/SHU-red/GopherLetics/commit/7b716bcbb17b495ad9f0d70eb53387a5b06520a4))
+
 ## [1.12.10](https://github.com/SHU-red/GopherLetics/compare/v1.12.9...v1.12.10) (2025-07-10)
 
 
