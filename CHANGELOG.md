@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/SHU-red/GopherLetics/compare/v1.12.12...v1.13.0) (2025-07-11)
+
+
+### Features
+
+* Add new GitHub Actions workflow for Fyne app build and packaging ([25890ac](https://github.com/SHU-red/GopherLetics/commit/25890acafe91893bb6647b5bd053888de83e9b21))
+
 ## [1.12.12](https://github.com/SHU-red/GopherLetics/compare/v1.12.11...v1.12.12) (2025-07-11)
 
 
