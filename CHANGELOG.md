@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.2](https://github.com/SHU-red/GopherLetics/compare/v1.13.1...v1.13.2) (2025-07-11)
+
+
+### Bug Fixes
+
+* Correct artifact paths for Linux and Darwin builds ([88fa49a](https://github.com/SHU-red/GopherLetics/commit/88fa49a520de24c32d3e9678b957ceb52be3c4b1))
+
 ## [1.13.1](https://github.com/SHU-red/GopherLetics/compare/v1.13.0...v1.13.1) (2025-07-11)
 
 
