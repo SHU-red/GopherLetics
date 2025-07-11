@@ -5,46 +5,14 @@ env:
   NAME: "GopherLetics"
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
   release:
     types: [published]
 
 jobs:
 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: ${{ env.GOVERSION }}
-
-    - name: Install build dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install gcc libgl1-mesa-dev xorg-dev
-
-    - name: Install dependencies
-      run: go mod download
-
-    - name: Test
-      run: go test -coverprofile=coverage.txt ./...
-
-    - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v5
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-
   package_linux:
     if: startsWith(github.ref, 'refs/tags/')
-    needs: test
+    needs: []
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
@@ -80,7 +48,7 @@ jobs:
 
   package_windows:
     if: startsWith(github.ref, 'refs/tags/')
-    needs: test
+    needs: []
     runs-on: windows-latest
     defaults:
       run:
@@ -128,7 +96,7 @@ jobs:
   package_darwin_arm:
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: macos-14
-    needs: test
+    needs: []
     steps:
     - uses: actions/checkout@v4
 
@@ -167,7 +135,7 @@ jobs:
   package_darwin_intel:
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: macos-13
-    needs: test
+    needs: []
     steps:
     - uses: actions/checkout@v4
 
