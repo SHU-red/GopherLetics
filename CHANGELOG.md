@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.1](https://github.com/SHU-red/GopherLetics/compare/v1.13.0...v1.13.1) (2025-07-11)
+
+
+### Bug Fixes
+
+* Add app-id to fyne package for Darwin builds ([28389b8](https://github.com/SHU-red/GopherLetics/commit/28389b8d7d4b6ea6f35bc064fbf1325d2426f0a2))
+
 ## [1.13.0](https://github.com/SHU-red/GopherLetics/compare/v1.12.12...v1.13.0) (2025-07-11)
 
 
