@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.12](https://github.com/SHU-red/GopherLetics/compare/v1.12.11...v1.12.12) (2025-07-11)
+
+
+### Bug Fixes
+
+* Remove invalid -pre-build flag from fyne-cross command ([a9fb386](https://github.com/SHU-red/GopherLetics/commit/a9fb386315f60b97ecc8579955148c5fa7dc9a20))
+
 ## [1.12.11](https://github.com/SHU-red/GopherLetics/compare/v1.12.10...v1.12.11) (2025-07-11)
 
 
