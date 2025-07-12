@@ -6,10 +6,10 @@ package main
 import (
 	"os"
 
-	"github.com/SHU-red/GopherLetics.git/internal/glob"
-	"github.com/SHU-red/GopherLetics.git/internal/gui"
-	"github.com/SHU-red/GopherLetics.git/internal/tts"
-	"github.com/SHU-red/GopherLetics.git/internal/workout"
+	"github.com/SHU-red/GopherLetics/internal/glob"
+	"github.com/SHU-red/GopherLetics/internal/gui"
+	"github.com/SHU-red/GopherLetics/internal/tts"
+	"github.com/SHU-red/GopherLetics/internal/workout"
 	"go.uber.org/zap"
 )
 
