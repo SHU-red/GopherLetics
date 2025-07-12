@@ -39,13 +39,15 @@ jobs:
         VERSION=${{ github.ref_name }}
         echo "VERSION=${VERSION:1}" >> $GITHUB_ENV
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: ${{ env.NAME }}-linux
-        path: GopherLetics.git.tar.xz # Fyne packages Linux as a tar.gz
-        if-no-files-found: error
-        overwrite: true
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: GopherLetics.tar.xz
+        asset_name: ${{ env.NAME }}-${{ env.VERSION }}-linux.tar.xz
+        asset_content_type: application/x-xz
 
   package_windows:
     if: startsWith(github.ref, 'refs/tags/')
@@ -86,13 +88,15 @@ jobs:
     - name: ZIP package
       run: zip ${{ env.NAME }}-${{ env.VERSION }}-windows-x64.zip "${{ env.NAME }}.exe"
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: ${{ env.NAME }}-windows
-        path: ${{ env.NAME }}-${{ env.VERSION }}-windows-x64.zip
-        if-no-files-found: error
-        overwrite: true
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ${{ env.NAME }}-${{ env.VERSION }}-windows-x64.zip
+        asset_name: ${{ env.NAME }}-${{ env.VERSION }}-windows-x64.zip
+        asset_content_type: application/zip
 
   package_darwin_arm:
     if: startsWith(github.ref, 'refs/tags/')
@@ -127,13 +131,15 @@ jobs:
     - name: ZIP app bundle
       run: zip --symlinks -r ${{ env.NAME }}-${{ env.VERSION }}-darwin-arm64.zip "${{ env.NAME }}.app/"
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: ${{ env.NAME }}-macos-arm
-        path: ${{ env.NAME }}-${{ env.VERSION }}-darwin-arm64.zip
-        if-no-files-found: error
-        overwrite: true
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ${{ env.NAME }}-${{ env.VERSION }}-darwin-arm64.zip
+        asset_name: ${{ env.NAME }}-${{ env.VERSION }}-darwin-arm64.zip
+        asset_content_type: application/zip
 
   package_darwin_intel:
     if: startsWith(github.ref, 'refs/tags/')
@@ -166,12 +172,14 @@ jobs:
         echo "VERSION=${VERSION:1}" >> $GITHUB_ENV
 
     - name: ZIP app bundle
-      run: zip --symlinks -r ${{ env.NAME }}-${{ env.VERSION }}-darwin-intel64.zip "${{ env.NAME }}.app/"
+      run: zip --symlinks -r ${{ env.NAME }}-${{ env.VERSION }}-darwin-intel64.zip "GopherLetics.app/"
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: ${{ env.NAME }}-macos-intel
-        path: ${{ env.NAME }}-${{ env.VERSION }}-darwin-intel64.zip
-        if-no-files-found: error
-        overwrite: true
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ${{ env.NAME }}-${{ env.VERSION }}-darwin-intel64.zip
+        asset_name: ${{ env.NAME }}-${{ env.VERSION }}-darwin-intel64.zip
+        asset_content_type: application/zip

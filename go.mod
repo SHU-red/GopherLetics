@@ -1,4 +1,4 @@
-module github.com/SHU-red/GopherLetics.git
+module github.com/SHU-red/GopherLetics
 
 go 1.22.0
 
