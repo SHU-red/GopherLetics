@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.3](https://github.com/SHU-red/GopherLetics/compare/v1.14.2...v1.14.3) (2025-07-12)
+
+
+### Bug Fixes
+
+* **go.mod:** fix go module ([c7ef037](https://github.com/SHU-red/GopherLetics/commit/c7ef0373c8a88b10c2e8013ff0d8b3ab6d5d7c97))
+
 ## [1.14.2](https://github.com/SHU-red/GopherLetics/compare/v1.14.1...v1.14.2) (2025-07-12)
 
 
