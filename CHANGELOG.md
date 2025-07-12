@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.2](https://github.com/SHU-red/GopherLetics/compare/v1.14.1...v1.14.2) (2025-07-12)
+
+
+### Bug Fixes
+
+* **artifact:** Fix GitHub Actions Artifact handling ([c41a71a](https://github.com/SHU-red/GopherLetics/commit/c41a71a9440fad02d3a03f77dd504bf024103af7))
+
 ## [1.14.1](https://github.com/SHU-red/GopherLetics/compare/v1.14.0...v1.14.1) (2025-07-12)
 
 
