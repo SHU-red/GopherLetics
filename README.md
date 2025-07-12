@@ -14,9 +14,7 @@ GopherLetics is a GUI-based workout companion designed to help you focus on your
 
 See the [CHANGELOG.md](https://github.com/SHU-red/GopherLetics/blob/main/CHANGELOG.md) for the latest updates.
 
-## Preparation
-
-Before running GopherLetics, ensure you have Go installed.
+## OS specific
 
 ### Linux
 
