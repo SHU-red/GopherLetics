@@ -43,7 +43,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ env.NAME }}-linux
-        path: dist/${{ env.NAME }}.tar.gz # Fyne packages Linux as a tar.gz
+        path: GopherLetics.git.tar.xz # Fyne packages Linux as a tar.gz
         if-no-files-found: error
         overwrite: true
 
@@ -125,7 +125,7 @@ jobs:
         echo "VERSION=${VERSION:1}" >> $GITHUB_ENV
 
     - name: ZIP app bundle
-      run: zip --symlinks -r ${{ env.NAME }}-${{ env.VERSION }}-darwin-arm64.zip "dist/${{ env.NAME }}.app/"
+      run: zip --symlinks -r ${{ env.NAME }}-${{ env.VERSION }}-darwin-arm64.zip "${{ env.NAME }}.app/"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
@@ -166,7 +166,7 @@ jobs:
         echo "VERSION=${VERSION:1}" >> $GITHUB_ENV
 
     - name: ZIP app bundle
-      run: zip --symlinks -r ${{ env.NAME }}-${{ env.VERSION }}-darwin-intel64.zip "dist/${{ env.NAME }}.app/"
+      run: zip --symlinks -r ${{ env.NAME }}-${{ env.VERSION }}-darwin-intel64.zip "${{ env.NAME }}.app/"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
