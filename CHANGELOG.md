@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.5](https://github.com/SHU-red/GopherLetics/compare/v1.14.4...v1.14.5) (2025-07-12)
+
+
+### Bug Fixes
+
+* **workflow:** Grant permission to write to release ([a6ecb5a](https://github.com/SHU-red/GopherLetics/commit/a6ecb5a56f97bb1cc31073cf313b68d28b362100))
+
 ## [1.14.4](https://github.com/SHU-red/GopherLetics/compare/v1.14.3...v1.14.4) (2025-07-12)
 
 
