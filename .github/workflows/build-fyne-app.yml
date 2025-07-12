@@ -30,7 +30,9 @@ jobs:
       run: go install fyne.io/tools/cmd/fyne@latest
 
     - name: Package Fyne app
-      run: fyne package -os linux --release
+      run: |
+        fyne package -os linux --release
+        ls -R
 
     - name: Set version
       run: |
@@ -113,7 +115,9 @@ jobs:
       run: go install fyne.io/tools/cmd/fyne@latest
 
     - name: Package app bundles
-      run: fyne package -os darwin --release --app-id com.gopherletics.app
+      run: |
+        fyne package -os darwin --release --app-id com.gopherletics.app
+        ls -R
 
     - name: Set version
       run: |
@@ -152,7 +156,9 @@ jobs:
       run: go install fyne.io/tools/cmd/fyne@latest
 
     - name: Package app bundles
-      run: fyne package -os darwin --release --app-id com.gopherletics.app
+      run: |
+        fyne package -os darwin --release --app-id com.gopherletics.app
+        ls -R
 
     - name: Set version
       run: |
