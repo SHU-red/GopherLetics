@@ -6,7 +6,7 @@ import (
 
 	htgotts "github.com/hegedustibor/htgo-tts"
 	"github.com/hegedustibor/htgo-tts/voices"
-	"github.com/SHU-red/GopherLetics.git/internal/glob"
+	"github.com/SHU-red/GopherLetics/internal/glob"
 	"go.uber.org/zap"
 )
 

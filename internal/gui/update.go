@@ -8,8 +8,8 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-	"github.com/SHU-red/GopherLetics.git/internal/glob"
-	"github.com/SHU-red/GopherLetics.git/internal/workout"
+	"github.com/SHU-red/GopherLetics/internal/glob"
+	"github.com/SHU-red/GopherLetics/internal/workout"
 )
 
 func updatevals() {

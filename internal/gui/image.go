@@ -9,7 +9,7 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
-	"github.com/SHU-red/GopherLetics.git/internal/workout"
+	"github.com/SHU-red/GopherLetics/internal/workout"
 	"github.com/adrg/strutil/metrics"
 	"go.uber.org/zap"
 )
