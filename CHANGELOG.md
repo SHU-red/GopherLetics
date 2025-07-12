@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.0](https://github.com/SHU-red/GopherLetics/compare/v1.13.3...v1.14.0) (2025-07-12)
+
+
+### Features
+
+* Add ls -R to packaging steps for debugging ([837ff6a](https://github.com/SHU-red/GopherLetics/commit/837ff6a66b253f4f53456757c7df7ecfe1232dda))
+
 ## [1.13.3](https://github.com/SHU-red/GopherLetics/compare/v1.13.2...v1.13.3) (2025-07-12)
 
 
