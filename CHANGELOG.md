@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.1](https://github.com/SHU-red/GopherLetics/compare/v1.14.0...v1.14.1) (2025-07-12)
+
+
+### Bug Fixes
+
+* **clean:** Cleanup ([8da63cf](https://github.com/SHU-red/GopherLetics/commit/8da63cf2d597ceba1a011e97d6890cfc0e8c0708))
+
 ## [1.14.0](https://github.com/SHU-red/GopherLetics/compare/v1.13.3...v1.14.0) (2025-07-12)
 
 
