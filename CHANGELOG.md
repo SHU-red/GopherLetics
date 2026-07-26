@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.15.0](https://github.com/SHU-red/GopherLetics/compare/v1.14.5...v1.15.0) (2026-07-26)
+
+
+### Features
+
+* **update:** Use differenct source, improve app ([fb5878c](https://github.com/SHU-red/GopherLetics/commit/fb5878ce7583c70bec2e159a243a9a19677b8b32))
+
+
+### Bug Fixes
+
+* **ui:** Fix handlimng ([df3e61e](https://github.com/SHU-red/GopherLetics/commit/df3e61e77fa7bf783cafba48590b2fd10b4ff724))
+
 ## [1.14.5](https://github.com/SHU-red/GopherLetics/compare/v1.14.4...v1.14.5) (2025-07-12)
 
 
