@@ -20,16 +20,20 @@ type Config struct {
 // Add viper package to edit code
 
 // Declare Choices
-var Choices_Type = []string{"strength", "cardio"}
+var Choices_Type = []string{"strength", "cardio", "mixed"}
 var Choices_Level = []string{"beginner", "intermediate", "advanced"}
 var Choices_Area = []string{"full", "upper", "lower", "core"}
+var Choices_Equipment = []string{"any", "body only", "dumbbell", "bands", "barbell", "kettlebells", "cable", "machine"}
+var Choices_Template = []string{"Classic Strength", "Pyramid Strength", "Cardio HIIT"}
 
 // All Settings from workout popup
 type Workout struct {
-	Duration float64 `json:"duration"`
-	Type     string  `json:"type"`
-	Area     string  `json:"area"`
-	Level    string  `json:"level"`
+	Duration  float64 `json:"duration"`
+	Type      string  `json:"type"`
+	Area      string  `json:"area"`
+	Level     string  `json:"level"`
+	Equipment string  `json:"equipment"`
+	Template  string  `json:"template"`
 }
 
 // All Settings of settings > audio
@@ -56,14 +60,12 @@ var ConfPath string // Config file Path
 
 func conf_setDefaults() {
 	viper.SetDefault("settings.audio.activate", true)
-	viper.SetDefault("settings.audio.activatecountdown", true)
-	viper.SetDefault("settings.audio.activateexercise", true)
-	viper.SetDefault("settings.audio.activatepause", true)
-
 	viper.SetDefault("workout.duration", 30.0)
 	viper.SetDefault("workout.type", "strength")
 	viper.SetDefault("workout.area", "full")
 	viper.SetDefault("workout.level", "beginner")
+	viper.SetDefault("workout.equipment", "any")
+	viper.SetDefault("workout.template", "Classic Strength")
 }
 
 // Initially Fill config Struct

@@ -1,0 +1,24 @@
+name: Static Analysis
+on: [push, pull_request]
+permissions:
+  contents: read
+
+jobs:
+  static_analysis:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+    - uses: actions/setup-go@v6
+      with:
+        go-version: 'stable'
+
+    - name: Install analysis tools
+      run: go install honnef.co/go/tools/cmd/staticcheck@v0.6.0
+
+    - name: Vet
+      run: go vet ./...
+
+    - name: Staticcheck
+      run: staticcheck ./...

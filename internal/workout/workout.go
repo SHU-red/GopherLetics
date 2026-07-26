@@ -2,23 +2,18 @@ package workout
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
-	"io/ioutil"
-	"log"
 	"net/http"
-	"regexp"
-	"strconv"
-	"strings"
+	"os"
+	"path/filepath"
 
-	"github.com/kr/pretty"
-	"github.com/spf13/viper"
+	"github.com/kirsle/configdir"
 	"go.uber.org/zap"
 )
 
 // GopherLetics style of stepwise Workout
 type Workout struct {
-	Ty string // Type
+	Ty string // Type (heading, exercise, rest)
 	Na string // Name
 	Du int    // Duration
 }
@@ -28,34 +23,49 @@ type Workouts []Workout
 
 var Wo Workouts
 
-// All Exercises from everkinetic
+// All Exercises from the Free Exercise DB (public domain / Unlicense)
 type Exercise struct {
-	Name        string   `json:"name"`
-	Title       string   `json:"title"`
-	Primary     []string `json:"primary_muscles"`
-	Secondary   []string `json:"secondary_muscles"`
-	Instruction []string `json:"instructions"`
-	Images      []string `json:"images"`
-	Img         []string `json:"img"`
-	Videos      []string `json:"videos"`
-	Force       string   `json:"force"`
-	Level       string   `json:"level"`
-	Category    string   `json:"category"`
+	ID               string   `json:"id"`
+	Name             string   `json:"name"`
+	Force            string   `json:"force"`
+	Level            string   `json:"level"`
+	Mechanic         string   `json:"mechanic"`
+	Equipment        string   `json:"equipment"`
+	PrimaryMuscles   []string `json:"primaryMuscles"`
+	SecondaryMuscles []string `json:"secondaryMuscles"`
+	Instructions     []string `json:"instructions"`
+	Category         string   `json:"category"`
+	Images           []string `json:"images"`
 }
 
 type Exercises []Exercise
 
 var AllExercises Exercises
 
+// FetchAllExercises loads the exercise DB from a local cache file.
+// If the cache is missing, it downloads from GitHub and caches it.
 func FetchAllExercises() {
-	resp, err := http.Get("https://raw.githubusercontent.com/everkinetic/data/main/exercises.json")
+	cachePath := cacheFilePath()
+
+	// Try loading from cache first
+	if data, err := os.ReadFile(cachePath); err == nil {
+		if err := json.Unmarshal(data, &AllExercises); err == nil {
+			zap.L().Info("loaded exercises from cache", zap.Int("count", len(AllExercises)))
+			LoadOverlay()
+			return
+		}
+	}
+
+	// Cache miss — download from upstream
+	url := "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json"
+	resp, err := http.Get(url)
 	if err != nil {
 		zap.L().Error("failed to fetch exercises", zap.Error(err))
 		return
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		zap.L().Error("failed to read response body", zap.Error(err))
 		return
@@ -65,134 +75,17 @@ func FetchAllExercises() {
 		zap.L().Error("failed to unmarshal exercises", zap.Error(err))
 		return
 	}
+
+	// Write cache
+	if err := os.MkdirAll(filepath.Dir(cachePath), 0755); err == nil {
+		_ = os.WriteFile(cachePath, body, 0644)
+		zap.L().Info("cached exercises", zap.String("path", cachePath))
+	}
+
+	zap.L().Info("loaded exercises from upstream", zap.Int("count", len(AllExercises)))
+	LoadOverlay()
 }
 
-// Fetch new Workout via HTTP
-func (wo *Workouts) Fetch() {
-
-	// Clear Workouts
-	Wo = Workouts{}
-
-	// Build URL from current config
-	url := "https://api.sebhulse.com/v1/workout/?type=" + viper.GetString("workout.type") + "&area=" + viper.GetString("workout.area") + "&level=" + viper.GetString("workout.level") + "&duration=" + viper.GetString("workout.duration")
-
-	// Debug
-	println(url)
-
-	// Get HTTP data
-	resp, err := http.Get(url)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	// We Read the response body on the line below.
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	// Debug
-	sb := string(body)
-	fmt.Println(sb)
-
-	// Get Lines
-	lines := strings.Split(string(body), "\n")
-
-	// Init counter for current workout line
-	w := -1            // Workout number
-	var w_buff Workout // buffer Workout
-	var b int          // buffer int
-	var bs string      // buffer string
-
-	// Parse Lines into Workout
-	for _, l := range lines {
-
-		// Regex Pre-definition
-		r_h, _ := regexp.Compile(`"(.*)": \[`)    // Heading
-		r_e, _ := regexp.Compile(`"ex": "(.*)"`) // Exercise
-		r_d, _ := regexp.Compile(`"du": ([0-9]+)`) // Duration
-		r_r, _ := regexp.Compile(`"re": ([0-9]+)`) // Rest
-
-		// If Heading
-		if r_h.MatchString(l) {
-
-			// Next Slice
-			w++
-
-			// Append
-			Wo = append(Wo, w_buff)
-
-			// Set Values
-			Wo[w].Ty = "heading"
-			Wo[w].Na = r_h.FindStringSubmatch(l)[1]
-			Wo[w].Du = 0
-
-		}
-
-		// If Exercise
-		if r_e.MatchString(l) {
-
-			// Get Values
-			bs = r_e.FindStringSubmatch(l)[1]
-
-			// Next Slice
-			w++
-
-			// Append
-			Wo = append(Wo, w_buff)
-
-			// Treat Transition as Rest
-			if bs == "transition" {
-
-				Wo[w].Ty = "rest"
-				Wo[w].Na = bs
-				Wo[w].Du = 0
-
-			} else {
-
-				Wo[w].Ty = "exercise"
-				Wo[w].Na = bs
-				Wo[w].Du = 0
-
-			}
-
-		}
-
-		// If Duration
-		if r_d.MatchString(l) {
-
-			// Set Values
-			b, _ = strconv.Atoi(r_d.FindStringSubmatch(l)[1])
-			Wo[w].Du = b
-
-		}
-		// If Rest
-		if r_r.MatchString(l) {
-
-			// Get Value
-			b, _ = strconv.Atoi(r_r.FindStringSubmatch(l)[1])
-
-			// If Rest not zero
-			if b > 0 {
-
-				w++
-
-				// Append
-				Wo = append(Wo, w_buff)
-
-				// Set Values
-				Wo[w].Ty = "rest"
-				Wo[w].Na = "Rest"
-				Wo[w].Du = b
-
-			}
-
-		}
-
-	}
-
-	//Debug
-	pretty.Println("Collected Workouts: ")
-	pretty.Println(Wo)
-
+func cacheFilePath() string {
+	return filepath.Join(configdir.LocalConfig("gopherletics"), "exercises.json")
 }

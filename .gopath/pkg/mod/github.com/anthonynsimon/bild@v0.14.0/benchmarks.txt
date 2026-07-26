@@ -1,0 +1,40 @@
+goos: darwin
+goarch: amd64
+
+pkg: github.com/anthonynsimon/bild/adjust
+BenchmarkApply-8   	25142976	       235 ns/op	     112 B/op	       3 allocs/op
+
+pkg: github.com/anthonynsimon/bild/convolution
+BenchmarkConvolve3-8    	     172	  34613389 ns/op	 8413690 B/op	       8 allocs/op
+BenchmarkConvolve8-8    	      32	 170457685 ns/op	 8462640 B/op	       8 allocs/op
+BenchmarkConvolve32-8   	       2	2603227291 ns/op	 8659248 B/op	       8 allocs/op
+BenchmarkConvolve64-8   	       1	10181854106 ns/op	 8929584 B/op	       8 allocs/op
+
+pkg: github.com/anthonynsimon/bild/effect
+BenchmarkMedian1-8   	    1005	   6275448 ns/op	 3687014 B/op	   65544 allocs/op
+BenchmarkMedian4-8   	      26	 226515953 ns/op	23628461 B/op	   65550 allocs/op
+BenchmarkMedian8-8   	       2	2524265186 ns/op	84585780 B/op	   65577 allocs/op
+
+pkg: github.com/anthonynsimon/bild/noise
+BenchmarkUniformMonochrome-8   	     194	  30926449 ns/op	 1048921 B/op	       4 allocs/op
+BenchmarkUniformColored-8      	      67	  87401332 ns/op	 1048712 B/op	       4 allocs/op
+
+pkg: github.com/anthonynsimon/bild/paint
+BenchmarkFloodFill-8   	      82	  71237537 ns/op	24616143 B/op	  259073 allocs/op
+
+pkg: github.com/anthonynsimon/bild/transform
+BenchmarkResizeTenth-8     	      54	 106483274 ns/op	 7374290 B/op	      10 allocs/op
+BenchmarkResizeQuarter-8   	      52	 116070611 ns/op	20971935 B/op	       8 allocs/op
+BenchmarkResizeHalf-8      	      37	 162314807 ns/op	50332324 B/op	       8 allocs/op
+BenchmarkResize1x-8        	     267	  23252871 ns/op	 8389000 B/op	       8 allocs/op
+BenchmarkResize2x-8        	      94	  59867822 ns/op	25166217 B/op	       8 allocs/op
+BenchmarkResize4x-8        	      31	 188098593 ns/op	83886558 B/op	       8 allocs/op
+BenchmarkResize8x-8        	       8	 666375788 ns/op	301990720 B/op	       9 allocs/op
+BenchmarkResize16x-8       	       2	2523312624 ns/op	1140851040 B/op	       8 allocs/op
+BenchmarkRotation256-8     	    1586	   3397452 ns/op	 1310965 B/op	  196613 allocs/op
+BenchmarkRotation512-8     	     438	  13462494 ns/op	 5243236 B/op	  786437 allocs/op
+BenchmarkRotation1024-8    	     121	  49059303 ns/op	20971951 B/op	 3145733 allocs/op
+BenchmarkRotation2048-8    	      30	 201259553 ns/op	83886562 B/op	12582917 allocs/op
+BenchmarkRotation4096-8    	       7	 788848699 ns/op	335545040 B/op	50331653 allocs/op
+BenchmarkRotation8192-8    	       2	3243539872 ns/op	1342178584 B/op	201326597 allocs/op
+BenchmarkTranslate-8       	    6219	    932677 ns/op	 4194449 B/op	       4 allocs/op

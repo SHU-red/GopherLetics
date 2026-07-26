@@ -1,7 +1,6 @@
 package gui
 
 import (
-	"fmt"
 	"strconv"
 	"time"
 
@@ -12,54 +11,46 @@ import (
 	"go.uber.org/zap"
 )
 
-// Create Channel
-var stop = make(chan bool)
-
-// Permanently running calculations
-func runloop() {
-
-}
+// Signal-only channel; recreated on each play to prevent double-start
+var stop chan struct{}
 
 // Execute Actions for Toggling Play button
 func toggleplay(button *widget.Button) {
 
 	// Only if Workouts are present
-	if len(workout.Wo) > 0 {
+	if len(workout.Wo) == 0 {
+		return
+	}
 
-		// Toggle play
-		glob.Gui.Play = !glob.Gui.Play
+	// Toggle play
+	glob.Gui.Play = !glob.Gui.Play
 
-		// Debug
-		fmt.Println("Toggled Play to " + strconv.FormatBool(glob.Gui.Play))
-		// Change Button icon
-		if glob.Gui.Play {
+	zap.L().Debug("toggled play", zap.Bool("play", glob.Gui.Play))
 
-			// Format Play Button to Play
-			PlayButtonPlay(button)
+	if glob.Gui.Play {
 
-			// Speech feedback
-			// go tts.SpeakRand("play")
-			go tts.Speak(workout.Wo[glob.Gui.WorkoutNr].Na)
+		// Format Play Button to Play (Pause icon)
+		PlayButtonPlay(button)
 
-			zap.L().Debug("Starting Counter")
+		// Speech feedback
+		go tts.Speak(workout.Wo[glob.Gui.WorkoutNr].Na)
 
-			// Concurrently run Counter
-			go count_timer()
+		// Create fresh stop channel
+		stop = make(chan struct{})
 
-		} else {
+		// Concurrently run Counter
+		go count_timer()
 
-			// Format Play Button to Pause
-			PlayButtonPause(button)
+	} else {
 
-			// Speech feedback
-			go tts.SpeakRand("stop")
+		// Format Play Button to Pause (Play icon)
+		PlayButtonPause(button)
 
-			zap.L().Debug("Stopping Coutner")
+		// Speech feedback
+		go tts.SpeakRand("stop")
 
-			// Stop concurrent Functions
-			stop <- true
-
-		}
+		// Stop concurrent Functions
+		close(stop)
 
 	}
 
@@ -68,20 +59,15 @@ func toggleplay(button *widget.Button) {
 // Mathematically count down timer
 func count_timer() {
 
-	// Execute every second
-	for range time.Tick(time.Second) {
+	ticker := time.NewTicker(time.Second)
+	defer ticker.Stop()
 
-		// !! Non-blocking !! channel read
+	for {
 		select {
 		case <-stop:
-
 			zap.L().Debug("Concurrent Countdown stopped")
-
-			// Cancel countdown
 			return
-
-		// If no message with true is received
-		default:
+		case <-ticker.C:
 
 			// Get current Timer
 			ti, _ := glob.Gui.Timer.Get()
@@ -94,18 +80,12 @@ func count_timer() {
 				SwitchWorkout(glob.Gui.WorkoutNr + 1)
 			} else { // Proceed
 				zap.L().Debug("Update Timer")
-				go update_timer_str()
+				update_timer_str()
 			}
 
-			// Acousitc Countdown for 5, 4, 3, 2 and 1
-			// Has to be sent in advantage for syncronization with shown timer
+			// Acoustic countdown for 5, 4, 3, 2 and 1
 			if ti <= 6 && ti > 1 {
 				go tts.Speak(strconv.Itoa(ti - 1))
-			}
-
-			// Show next workout in browser
-			if ti == 10 && glob.Gui.WorkoutNr < len(workout.Wo)-1 {
-				go ShowWorkout(glob.Gui.WorkoutNr, false)
 			}
 
 		}

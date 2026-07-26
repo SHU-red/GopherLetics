@@ -1,0 +1,122 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+env:
+  GOVERSION: "1.26"
+  APPID: "com.gopherletics.app"
+  BINARY: "GopherLetics"
+
+jobs:
+  linux:
+    name: Linux amd64 (Wayland)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GOVERSION }}
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc libgl1-mesa-dev libasound2-dev
+
+      - name: Install fyne-cross
+        run: go install github.com/fyne-io/fyne-cross@latest
+
+      - name: Cross-package Linux (Wayland)
+        run: |
+          fyne-cross linux -app-id ${{ env.APPID }} -arch amd64 -tags wayland
+
+      - name: Rename artifact
+        run: |
+          mv fyne-cross/dist/linux-amd64/${{ env.BINARY }}_Linux_AMD64 \
+             ${{ env.BINARY }}-linux-amd64
+
+      - name: Create tarball
+        run: |
+          tar czf ${{ env.BINARY }}-linux-amd64.tar.gz ${{ env.BINARY }}-linux-amd64
+
+      - name: Upload
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload ${{ github.ref_name }} \
+            ${{ env.BINARY }}-linux-amd64.tar.gz
+
+  windows:
+    name: Windows amd64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GOVERSION }}
+
+      - name: Install MinGW
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mingw-w64
+
+      - name: Install fyne-cross
+        run: go install github.com/fyne-io/fyne-cross@latest
+
+      - name: Cross-package Windows
+        run: |
+          fyne-cross windows -app-id ${{ env.APPID }} -arch amd64
+
+      - name: Rename artifact
+        run: |
+          mv fyne-cross/dist/windows-amd64/${{ env.BINARY }}.exe.zip \
+             ${{ env.BINARY }}-windows-amd64.zip
+
+      - name: Upload
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload ${{ github.ref_name }} \
+            ${{ env.BINARY }}-windows-amd64.zip
+
+  macos:
+    name: macOS ${{ matrix.arch }}
+    strategy:
+      matrix:
+        include:
+          - os: macos-14
+            arch: arm64
+          - os: macos-13
+            arch: amd64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GOVERSION }}
+
+      - name: Install Fyne tool
+        run: go install fyne.io/tools/cmd/fyne@latest
+
+      - name: Package .app bundle
+        run: |
+          fyne package -os darwin --release --app-id ${{ env.APPID }}
+
+      - name: Create ZIP archive
+        run: |
+          zip --symlinks -r ${{ env.BINARY }}-darwin-${{ matrix.arch }}.zip \
+            "${{ env.BINARY }}.app/"
+
+      - name: Upload
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload ${{ github.ref_name }} \
+            ${{ env.BINARY }}-darwin-${{ matrix.arch }}.zip

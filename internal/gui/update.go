@@ -12,23 +12,18 @@ import (
 	"github.com/SHU-red/GopherLetics/internal/workout"
 )
 
-func updatevals() {
-
-}
-
 // Update the Shown timer String
 func update_timer_str() {
 	time, _ := glob.Gui.Timer.Get()
 	timer.Text = fmt.Sprintf("%04d", time)
 
-	// Update the shown timer
-	timer.Refresh()
-
+	fyne.Do(func() {
+		timer.Refresh()
+	})
 }
 
-// Update Shown workouts
-func update_workout_list() {
-
+// Create the workout list widget once (called from Main)
+func create_workout_list() {
 	list = widget.NewList(
 		func() int {
 			return len(workout.Wo)
@@ -55,9 +50,10 @@ func update_workout_list() {
 					o.(*widget.Button).Importance = widget.WarningImportance
 				}
 				o.(*widget.Button).SetIcon(theme.ColorChromaticIcon())
-				o.(*widget.Button).OnTapped = func() { SwitchWorkout(i) }
+				idx := i
+				o.(*widget.Button).OnTapped = func() { SwitchWorkout(idx) }
 
-			// Pause
+			// Rest / Transition
 			default:
 
 				o.(*widget.Button).SetText(strconv.Itoa(workout.Wo[i].Du) + "s: " + workout.Wo[i].Na)
@@ -67,7 +63,8 @@ func update_workout_list() {
 					o.(*widget.Button).Importance = widget.SuccessImportance
 				}
 				o.(*widget.Button).SetIcon(theme.HistoryIcon())
-				o.(*widget.Button).OnTapped = func() { SwitchWorkout(i) }
+				idx := i
+				o.(*widget.Button).OnTapped = func() { SwitchWorkout(idx) }
 
 			}
 
@@ -75,22 +72,23 @@ func update_workout_list() {
 			o.Refresh()
 
 		})
+}
 
-	// Refresh whole list
+// Refresh the Shown workouts list
+func refresh_workout_list() {
 	list.Refresh()
-	content.Refresh()
-	w.Content().Refresh()
-	w.Canvas().Refresh(list)
-
+	fyne.Do(func() {
+		content.Refresh()
+		w.Content().Refresh()
+		w.Canvas().Refresh(list)
+	})
 }
 
 // Refresh workout and reset all necessary values
 func update_all() {
-
 	// Update Timer
 	update_timer_str()
 
-	// Update Workout
-	update_workout_list()
-
+	// Refresh Workout list
+	refresh_workout_list()
 }

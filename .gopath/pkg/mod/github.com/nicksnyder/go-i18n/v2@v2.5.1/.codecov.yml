@@ -1,0 +1,9 @@
+coverage:
+  range: 50..75
+  status:
+    patch:
+      default:
+        only_pulls: true
+    project:
+      default:
+        informational: true

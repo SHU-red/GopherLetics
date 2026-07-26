@@ -10,13 +10,11 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
-	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/SHU-red/GopherLetics/internal/glob"
 	"github.com/SHU-red/GopherLetics/internal/tts"
 	"github.com/SHU-red/GopherLetics/internal/workout"
-	"github.com/kr/pretty"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 )
@@ -36,12 +34,8 @@ var progbar fyne.Widget
 // Timercontainer
 var timercontainer fyne.Container
 
-// For Rorkout list
+// Workout list widget
 var list fyne.Widget
-var lv4 *container.Split
-
-// Last shown Workout
-var last_shown_workout string
 
 // Play/Pause Button
 var playbutton widget.Button
@@ -52,11 +46,11 @@ func Main() {
 	glob.Gui_initval()
 
 	// Fyne App
-	a := app.New()
+	a := app.NewWithID("com.github.SHU-red.GopherLetics")
 	w = a.NewWindow("GopherLetics")
 
-	// Show Image Window
-	go ShowImageWindow(a)
+	// Create shared exercise widgets
+	createExerciseWidgets()
 
 	// URLs
 	url_gopherletics, err := url.Parse("https://github.com/SHU-red/GopherLetics")
@@ -75,90 +69,82 @@ func Main() {
 		return
 	}
 
-	// Top
-	top_center := container.NewCenter(widget.NewLabel("GopherLetics"))
-	top := container.NewBorder(nil, nil, nil, nil, top_center)
+	// Top title
+	top := container.NewCenter(widget.NewLabelWithStyle("GopherLetics", fyne.TextAlignCenter, fyne.TextStyle{Bold: true}))
 
-	// Bottom
-	bottom_left := container.New(layout.NewHBoxLayout(),
+	// Bottom footer
+	footer := container.NewHBox(
 		widget.NewHyperlink("GopherLetics v0.1", url_gopherletics),
 		widget.NewHyperlink("Fyne v0", url_fyne),
-		widget.NewHyperlink("Golang v0", url_golang))
-	bottom_right := widget.NewLabel("")
-	bottom := container.NewBorder(nil, nil, bottom_left, bottom_right, nil)
+		widget.NewHyperlink("Golang v0", url_golang),
+	)
 
 	// Play Button
 	PlayButtonPause(&playbutton)
 	playbutton.OnTapped = func() { toggleplay(&playbutton) }
 
-	// ToolBar
-	toolbar := container.NewHBox(widget.NewButtonWithIcon("", theme.MediaSkipPreviousIcon(), previousExercise), &playbutton, widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), nextExercise))
+	// Toolbar
+	toolbar := container.NewHBox(
+		widget.NewButtonWithIcon("", theme.MediaSkipPreviousIcon(), previousExercise),
+		&playbutton,
+		widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), nextExercise),
+	)
 
-	low_left := container.NewHBox(widget.NewButtonWithIcon("Workout", theme.AccountIcon(), workoutSettings), widget.NewButtonWithIcon("Refresh", theme.ViewRefreshIcon(), refresh))
-	// Menu
-	menu := container.NewBorder(nil, nil, low_left, widget.NewButtonWithIcon("Settings", theme.SettingsIcon(), settings), container.NewCenter(toolbar))
+	menuLeft := container.NewHBox(
+		widget.NewButtonWithIcon("Workout", theme.AccountIcon(), workoutSettings),
+		widget.NewButtonWithIcon("Refresh", theme.ViewRefreshIcon(), refresh),
+	)
+	menu := container.NewBorder(nil, nil, menuLeft, widget.NewButtonWithIcon("Settings", theme.SettingsIcon(), settings), container.NewCenter(toolbar))
 
 	// Progress bar
 	progbar = widget.NewProgressBarWithData(glob.Gui.Progress)
 
-	// Exercise
-	// exercise := widget.NewLabel("Exercise")
-
 	// Timer
-	timer.Text = "NO DATA"
-	timer.TextSize = 100
+	timer.Text = "0030"
+	timer.TextSize = 72
 	timercontainer = *container.NewCenter(&timer)
 
-	// List
-	update_workout_list()
+	// Image panel: timer on top, image fills center, name label below
+	imagePanel := container.NewBorder(&timercontainer, exerciseNameLabel, nil, nil, exerciseImage)
 
-	// Excercise Levels
-	// lv4 = container.NewVSplit(&timercontainer, list)
-	// lv3 := container.NewHSplit(lv4, exercise)
-	// lv2 := container.NewBorder(nil, progbar, nil, nil, lv3)
-	lv2 := container.NewBorder(&timercontainer, progbar, nil, nil, list)
-	lv1 := container.NewBorder(nil, menu, nil, nil, lv2)
+	// Create workout list once
+	create_workout_list()
 
-	// Main Content
-	content = *container.NewBorder(top, bottom, nil, nil, lv1)
+	// Main split: image panel (65%) | workout list (35%)
+	split := container.NewHSplit(imagePanel, list)
+	split.SetOffset(0.65)
 
-	// Set Content
+	// Stack: split above, progress bar below
+	mainArea := container.NewBorder(nil, progbar, nil, nil, split)
+
+	// Outer framing: top title, menu at bottom of main area, footer
+	content = *container.NewBorder(top, footer, nil, nil,
+		container.NewBorder(nil, menu, nil, nil, mainArea),
+	)
+
 	w.SetContent(&content)
 
 	// Refresh on startup
 	refresh()
 
-	// Catch Keyboard strokes
+	// Keyboard shortcuts
 	w.Canvas().SetOnTypedKey(func(k *fyne.KeyEvent) {
-		fmt.Println("Key pressed: " + k.Name)
 		switch k.Name {
-
-		// Space = Play/Pause
 		case fyne.KeySpace:
-
-			go toggleplay(&playbutton)
+			toggleplay(&playbutton)
+		case fyne.KeyLeft:
+			previousExercise()
+		case fyne.KeyRight:
+			nextExercise()
+		case fyne.KeyR:
+			refresh()
+		case fyne.KeyS:
+			settings()
+		case fyne.KeyW:
+			workoutSettings()
 		}
-
-		// Left = Previous
-		//TODO
-
-		// Right = Next
-		// TODO
-
-		// W = Workout
-		//TODO
-
-		// S = Settings
-		//TODO
-
-		// R = Refresh
-		//TODO
 	})
 
-	// // Runloop
-	// go runloop()
-
-	// Show App
 	w.ShowAndRun()
 }
 
@@ -198,18 +184,20 @@ func previousExercise() {
 
 func refresh() {
 
-	// Pull new Workout
-	workout.Wo.Fetch()
+	// Generate new workout from config
+	cfg := workout.GenerateConfig{
+		Duration:  int(glob.Conf.Workout.Duration),
+		Type:      glob.Conf.Workout.Type,
+		Area:      glob.Conf.Workout.Area,
+		Level:     glob.Conf.Workout.Level,
+		Equipment: glob.Conf.Workout.Equipment,
+		Template:  glob.Conf.Workout.Template,
+	}
+	workout.Wo.Generate(cfg)
 
-	// If Workout could be feched
 	if len(workout.Wo) > 0 {
-
-		// Switch workout
 		SwitchWorkout(0)
-
-		// Update content
 		update_all()
-
 	}
 
 }
@@ -233,17 +221,15 @@ func PlayButtonPause(button *widget.Button) {
 	button.Refresh()
 
 }
-
-// Switch to certain workout and restet/refresh necessary components
+// Switch to certain workout and reset/refresh necessary components
 func SwitchWorkout(x int) {
 
-	// if Workout lenght is 0
+	// if Workout length is 0
 	if len(workout.Wo) == 0 {
 		return
 	}
 
-	zap.L().Debug("Switched Workout", zap.Int("Switching to", x))
-	zap.L().Debug("Switching to", zap.Int("Workout Lenght", len(workout.Wo)))
+	zap.L().Debug("switched workout", zap.Int("to", x), zap.Int("total", len(workout.Wo)))
 
 	// If Workout has finished
 	if x >= len(workout.Wo) {
@@ -260,18 +246,16 @@ func SwitchWorkout(x int) {
 		// Return to start
 		x = 0
 
-		// Debug
-		zap.L().Debug("Finished Workout", zap.Int("Switching to", glob.Gui.WorkoutNr))
-		pretty.Print("-thats it")
+		zap.L().Debug("finished workout")
 
-		// Stop Timer countown non blocking
-		go func() {
-			stop <- true
-		}()
+		// Stop Timer
+		if stop != nil {
+			close(stop)
+		}
 
 	}
 
-	//Set workout Pointer to first non-heading starting from x
+	// Set workout Pointer to first non-heading starting from x
 	i := x
 	for workout.Wo[i].Ty == "heading" {
 		i++
@@ -282,7 +266,7 @@ func SwitchWorkout(x int) {
 
 	// Update Progress
 	p := float64(int(glob.Gui.WorkoutNr)) / float64(len(workout.Wo))
-	zap.L().Debug("New Progress calculated", zap.Float64("Progress", p))
+	zap.L().Debug("new progress", zap.Float64("progress", p))
 	glob.Gui.Progress.Set(p)
 
 	// If Workout switch was done during Play
@@ -313,9 +297,6 @@ func findNextExercise(currentIndex int) *workout.Workout {
 	return nil
 }
 
-// Show workout in Browser
-func ShowWorkout(x int, force bool) {
-}
 
 func settings() {
 
@@ -360,7 +341,6 @@ func settings() {
 		}
 	}, w)
 }
-
 func workoutSettings() {
 
 	// Create form elements for workout settings
@@ -368,20 +348,20 @@ func workoutSettings() {
 	durationEntry.SetPlaceHolder("Duration (minutes)")
 	durationEntry.SetText(fmt.Sprintf("%.0f", glob.Conf.Workout.Duration))
 
-	typeSelect := widget.NewSelect(glob.Choices_Type, func(s string) {
-		// This will be handled on save
-	})
+	typeSelect := widget.NewSelect(glob.Choices_Type, func(s string) {})
 	typeSelect.SetSelected(glob.Conf.Workout.Type)
 
-	areaSelect := widget.NewSelect(glob.Choices_Area, func(s string) {
-		// This will be handled on save
-	})
+	areaSelect := widget.NewSelect(glob.Choices_Area, func(s string) {})
 	areaSelect.SetSelected(glob.Conf.Workout.Area)
 
-	levelSelect := widget.NewSelect(glob.Choices_Level, func(s string) {
-		// This will be handled on save
-	})
+	levelSelect := widget.NewSelect(glob.Choices_Level, func(s string) {})
 	levelSelect.SetSelected(glob.Conf.Workout.Level)
+
+	equipmentSelect := widget.NewSelect(glob.Choices_Equipment, func(s string) {})
+	equipmentSelect.SetSelected(glob.Conf.Workout.Equipment)
+
+	templateSelect := widget.NewSelect(glob.Choices_Template, func(s string) {})
+	templateSelect.SetSelected(glob.Conf.Workout.Template)
 
 	// Create a form with the workout settings
 	form := widget.NewForm(
@@ -389,20 +369,22 @@ func workoutSettings() {
 		widget.NewFormItem("Type", typeSelect),
 		widget.NewFormItem("Area", areaSelect),
 		widget.NewFormItem("Level", levelSelect),
+		widget.NewFormItem("Equipment", equipmentSelect),
+		widget.NewFormItem("Template", templateSelect),
 	)
 
 	// Show Dialog
 	dialog.ShowCustomConfirm("Workout Settings", "Save", "Cancel", form, func(b bool) {
 		if b {
-			// Update glob.Conf with new values
 			if d, err := strconv.ParseFloat(durationEntry.Text, 64); err == nil {
 				viper.Set("workout.duration", d)
 			}
 			viper.Set("workout.type", typeSelect.Selected)
 			viper.Set("workout.area", areaSelect.Selected)
 			viper.Set("workout.level", levelSelect.Selected)
+			viper.Set("workout.equipment", equipmentSelect.Selected)
+			viper.Set("workout.template", templateSelect.Selected)
 
-			// Write to config file
 			glob.Conf_Write()
 		}
 	}, w)
