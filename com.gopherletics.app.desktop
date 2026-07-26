@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=GopherLetics
+Comment=Workout companion with exercise images and timed routines
+Exec=GopherLetics
+Icon=gopherletics
+Terminal=false
+Type=Application
+Categories=Sports;Utility;
+StartupWMClass=GopherLetics

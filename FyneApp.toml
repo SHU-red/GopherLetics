@@ -1,0 +1,5 @@
+[App]
+ID = "com.gopherletics.app"
+Name = "GopherLetics"
+Version = "0.1.0"
+Icon = "Icon.png"

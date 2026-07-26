@@ -15,10 +15,10 @@ var areaMuscles = map[string][]string{
 
 // FilterConfig mirrors user settings for exercise selection.
 type FilterConfig struct {
-	Type      string // strength, cardio, mixed
-	Area      string // full, upper, lower, core
-	Level     string // beginner, intermediate, expert
-	Equipment string // body only, dumbbell, bands, barbell, machine, any
+	Type      string   // strength, cardio, mixed
+	Area      string   // full, upper, lower, core
+	Level     string   // beginner, intermediate, expert
+	Equipment []string // selected equipment types; ["any"] or empty means no filter
 }
 
 // FilterExercises returns a shuffled pool of exercises matching the given criteria.
@@ -43,9 +43,11 @@ func FilterExercises(cfg FilterConfig) Exercises {
 			continue
 		}
 
-		// Equipment
-		if cfg.Equipment != "" && cfg.Equipment != "any" && ex.Equipment != cfg.Equipment {
-			continue
+		// Equipment: if specific list (not ["any"]), check membership
+		if len(cfg.Equipment) > 0 && cfg.Equipment[0] != "any" {
+			if !contains(cfg.Equipment, ex.Equipment) {
+				continue
+			}
 		}
 
 		// Area: at least one primary muscle must match the target area
@@ -105,6 +107,15 @@ func PickN(pool Exercises, n int) Exercises {
 func muscleOverlaps(muscles []string, areaSet map[string]bool) bool {
 	for _, m := range muscles {
 		if areaSet[strings.ToLower(m)] {
+			return true
+		}
+	}
+	return false
+}
+
+func contains(slice []string, s string) bool {
+	for _, v := range slice {
+		if v == s {
 			return true
 		}
 	}

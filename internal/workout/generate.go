@@ -72,12 +72,12 @@ var Templates = []TemplateDef{
 
 // GenerateConfig mirrors user settings for workout generation.
 type GenerateConfig struct {
-	Duration  int     // total workout duration in minutes
-	Type      string  // strength, cardio, mixed
-	Area      string  // full, upper, lower, core
-	Level     string  // beginner, intermediate, expert
-	Equipment string  // body only, dumbbell, bands, any
-	Template  string  // name of the template to use
+	Duration  int      // total workout duration in minutes
+	Type      string   // strength, cardio, mixed
+	Area      string   // full, upper, lower, core
+	Level     string   // beginner, intermediate, expert
+	Equipment []string // selected equipment types
+	Template  string   // name of the template to use
 }
 
 // Generate produces a Workouts slice from the exercise pool using the given config.

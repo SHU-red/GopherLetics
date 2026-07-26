@@ -1,9 +1,14 @@
 package gui
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
 	"net/url"
 	"strconv"
+	"strings"
+	"time"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -40,44 +45,80 @@ var list fyne.Widget
 // Play/Pause Button
 var playbutton widget.Button
 
+// App version (set from FyneApp.toml metadata at startup)
+var appVersion string
+
+// Update check state
+var (
+	updateAvailable bool
+	updateTag       string
+	updateChecked   bool
+)
+
 func Main() {
 
 	// Initialize glob variables
 	glob.Gui_initval()
 
 	// Fyne App
-	a := app.NewWithID("com.github.SHU-red.GopherLetics")
+	a := app.NewWithID("com.gopherletics.app")
+	a.Settings().SetTheme(&fitnessTheme{})
 	w = a.NewWindow("GopherLetics")
+	w.Resize(fyne.NewSize(1000, 750))
+
+	// Store version from FyneApp.toml
+	appVersion = a.Metadata().Version
 
 	// Create shared exercise widgets
 	createExerciseWidgets()
 
+	// Start background update check
+	go checkUpdate()
+
 	// URLs
-	url_gopherletics, err := url.Parse("https://github.com/SHU-red/GopherLetics")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	url_fyne, err := url.Parse("https://fyne.io/")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	url_golang, err := url.Parse("https://go.dev/")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	url_gopherletics, _ := url.Parse("https://github.com/SHU-red/GopherLetics")
+	url_fyne, _ := url.Parse("https://fyne.io/")
+	url_golang, _ := url.Parse("https://go.dev/")
+	url_bmc, _ := url.Parse("https://buymeacoffee.com/yffbptmtaa")
+	url_releases, _ := url.Parse("https://github.com/SHU-red/GopherLetics/releases")
 
 	// Top title
 	top := container.NewCenter(widget.NewLabelWithStyle("GopherLetics", fyne.TextAlignCenter, fyne.TextStyle{Bold: true}))
 
 	// Bottom footer
-	footer := container.NewHBox(
-		widget.NewHyperlink("GopherLetics v0.1", url_gopherletics),
-		widget.NewHyperlink("Fyne v0", url_fyne),
-		widget.NewHyperlink("Golang v0", url_golang),
+	footerLinks := container.NewHBox(
+		widget.NewHyperlink(fmt.Sprintf("GopherLetics %s", appVersion), url_gopherletics),
+		widget.NewLabel("|"),
+		widget.NewHyperlink("Fyne", url_fyne),
+		widget.NewLabel("|"),
+		widget.NewHyperlink("Go", url_golang),
+		widget.NewLabel("|"),
+		widget.NewHyperlink("☕ Support", url_bmc),
 	)
+
+	// Update indicator — shown when check completes
+	updateLink := widget.NewHyperlink("", url_releases)
+	updateLink.Hidden = true
+
+	footer := container.NewVBox(
+		footerLinks,
+		container.NewCenter(updateLink),
+	)
+
+	// Poll update status and show the link when ready
+	go func() {
+		for range time.Tick(500 * time.Millisecond) {
+			if updateChecked {
+				fyne.Do(func() {
+					if updateAvailable {
+						updateLink.SetText("⬆ Update available: " + updateTag)
+						updateLink.Hidden = false
+					}
+				})
+				return
+			}
+		}
+	}()
 
 	// Play Button
 	PlayButtonPause(&playbutton)
@@ -148,6 +189,62 @@ func Main() {
 	w.ShowAndRun()
 }
 
+// checkUpdate fetches the latest release version from GitHub.
+func checkUpdate() {
+	resp, err := http.Get("https://api.github.com/repos/SHU-red/GopherLetics/releases/latest")
+	if err != nil {
+		zap.L().Debug("update check failed", zap.Error(err))
+		updateChecked = true
+		return
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		updateChecked = true
+		return
+	}
+
+	var rel struct {
+		TagName string `json:"tag_name"`
+	}
+	if err := json.Unmarshal(body, &rel); err != nil {
+		updateChecked = true
+		return
+	}
+
+	local := "v" + appVersion
+	if compareVersions(rel.TagName, local) > 0 {
+		updateAvailable = true
+		updateTag = rel.TagName
+	}
+	updateChecked = true
+}
+
+// compareVersions returns 1 if v1 > v2, -1 if v1 < v2, 0 if equal.
+// Expects "v1.2.3" format.
+func compareVersions(v1, v2 string) int {
+	v1 = strings.TrimPrefix(v1, "v")
+	v2 = strings.TrimPrefix(v2, "v")
+	p1 := strings.Split(v1, ".")
+	p2 := strings.Split(v2, ".")
+	for i := range 3 {
+		var n1, n2 int
+		if i < len(p1) {
+			n1, _ = strconv.Atoi(p1[i])
+		}
+		if i < len(p2) {
+			n2, _ = strconv.Atoi(p2[i])
+		}
+		if n1 > n2 {
+			return 1
+		}
+		if n1 < n2 {
+			return -1
+		}
+	}
+	return 0
+}
 func nextExercise() {
 	currentIndex := glob.Gui.WorkoutNr
 	for i := currentIndex + 1; i < len(workout.Wo); i++ {
@@ -300,92 +397,134 @@ func findNextExercise(currentIndex int) *workout.Workout {
 
 func settings() {
 
-	// Create Checkboxes
-	activateAudio := widget.NewCheck("Activate Audio", func(b bool) {
+	activateAudio := widget.NewCheck("", func(b bool) {
 		viper.Set("settings.audio.activate", b)
 		glob.Conf_Write()
 	})
 	activateAudio.SetChecked(viper.GetBool("settings.audio.activate"))
 
-	activateCountdown := widget.NewCheck("Activate Countdown", func(b bool) {
+	activateCountdown := widget.NewCheck("", func(b bool) {
 		viper.Set("settings.audio.activatecountdown", b)
 		glob.Conf_Write()
 	})
 	activateCountdown.SetChecked(viper.GetBool("settings.audio.activatecountdown"))
 
-	activateExercise := widget.NewCheck("Activate Exercise speech", func(b bool) {
+	activateExercise := widget.NewCheck("", func(b bool) {
 		viper.Set("settings.audio.activateexercise", b)
 		glob.Conf_Write()
 	})
 	activateExercise.SetChecked(viper.GetBool("settings.audio.activateexercise"))
 
-	activatePause := widget.NewCheck("Activate Pause speech", func(b bool) {
+	activatePause := widget.NewCheck("", func(b bool) {
 		viper.Set("settings.audio.activatepause", b)
 		glob.Conf_Write()
 	})
 	activatePause.SetChecked(viper.GetBool("settings.audio.activatepause"))
 
-	// Create Form
-	items := []*widget.FormItem{
-		widget.NewFormItem("", activateAudio),
-		widget.NewFormItem("", activateCountdown),
-		widget.NewFormItem("", activateExercise),
-		widget.NewFormItem("", activatePause),
+	// Row: label left, checkbox right
+	row := func(label string, check *widget.Check) *fyne.Container {
+		return container.NewBorder(nil, nil, widget.NewLabel(label), nil, check)
 	}
-	form := widget.NewForm(items...)
 
-	// Show Dialog
-	dialog.ShowCustomConfirm("Settings", "Save", "Cancel", form, func(b bool) {
-		if b {
-			// Save settings (already done by checkbox callbacks)
+	audioCard := widget.NewCard("Audio Feedback", "",
+		container.NewVBox(
+			row("Voice prompts", activateAudio),
+			widget.NewSeparator(),
+			row("Countdown numbers", activateCountdown),
+			widget.NewSeparator(),
+			row("Exercise names", activateExercise),
+			widget.NewSeparator(),
+			row("Pause announcements", activatePause),
+		),
+	)
+
+	// About section
+	url_bmc, _ := url.Parse("https://buymeacoffee.com/yffbptmtaa")
+	url_gh, _ := url.Parse("https://github.com/SHU-red/GopherLetics")
+	url_releases, _ := url.Parse("https://github.com/SHU-red/GopherLetics/releases")
+
+	updateStatus := "Checking..."
+	if updateChecked {
+		if updateAvailable {
+			updateStatus = "⬆ " + updateTag + " available"
+		} else {
+			updateStatus = "✓ Up to date"
 		}
-	}, w)
+	}
+
+	aboutContent := container.NewVBox(
+		widget.NewLabel("Version: "+appVersion),
+		container.NewHBox(
+			widget.NewLabel("Updates:"),
+			widget.NewHyperlink(updateStatus, url_releases),
+		),
+		widget.NewSeparator(),
+		container.NewHBox(
+			widget.NewHyperlink("GitHub", url_gh),
+			widget.NewLabel("|"),
+			widget.NewHyperlink("☕ Buy me a coffee", url_bmc),
+		),
+	)
+	aboutCard := widget.NewCard("About", "", aboutContent)
+
+	content := container.NewVBox(audioCard, widget.NewSeparator(), aboutCard)
+
+	d := dialog.NewCustomConfirm("Settings", "Close", "", container.NewScroll(content), func(b bool) {}, w)
+	d.Show()
+	d.Resize(fyne.NewSize(640, 520))
 }
 func workoutSettings() {
 
-	// Create form elements for workout settings
+	// Build interactive controls
 	durationEntry := widget.NewEntry()
 	durationEntry.SetPlaceHolder("Duration (minutes)")
 	durationEntry.SetText(fmt.Sprintf("%.0f", glob.Conf.Workout.Duration))
 
-	typeSelect := widget.NewSelect(glob.Choices_Type, func(s string) {})
+	typeSelect := widget.NewSelect(glob.Choices_Type, nil)
 	typeSelect.SetSelected(glob.Conf.Workout.Type)
 
-	areaSelect := widget.NewSelect(glob.Choices_Area, func(s string) {})
+	areaSelect := widget.NewSelect(glob.Choices_Area, nil)
 	areaSelect.SetSelected(glob.Conf.Workout.Area)
 
-	levelSelect := widget.NewSelect(glob.Choices_Level, func(s string) {})
+	levelSelect := widget.NewSelect(glob.Choices_Level, nil)
 	levelSelect.SetSelected(glob.Conf.Workout.Level)
 
-	equipmentSelect := widget.NewSelect(glob.Choices_Equipment, func(s string) {})
-	equipmentSelect.SetSelected(glob.Conf.Workout.Equipment)
+	equipmentCheck := widget.NewCheckGroup(glob.Choices_Equipment, nil)
+	equipmentCheck.SetSelected(glob.Conf.Workout.Equipment)
 
-	templateSelect := widget.NewSelect(glob.Choices_Template, func(s string) {})
+	templateSelect := widget.NewSelect(glob.Choices_Template, nil)
 	templateSelect.SetSelected(glob.Conf.Workout.Template)
 
-	// Create a form with the workout settings
-	form := widget.NewForm(
-		widget.NewFormItem("Duration", durationEntry),
-		widget.NewFormItem("Type", typeSelect),
-		widget.NewFormItem("Area", areaSelect),
-		widget.NewFormItem("Level", levelSelect),
-		widget.NewFormItem("Equipment", equipmentSelect),
-		widget.NewFormItem("Template", templateSelect),
+	// Card-based layout
+	content := container.NewVBox(
+		widget.NewCard("Duration", "", durationEntry),
+		widget.NewSeparator(),
+		widget.NewCard("Type", "", typeSelect),
+		widget.NewSeparator(),
+		widget.NewCard("Area", "", areaSelect),
+		widget.NewSeparator(),
+		widget.NewCard("Level", "", levelSelect),
+		widget.NewSeparator(),
+		widget.NewCard("Equipment", "Select one or more", equipmentCheck),
+		widget.NewSeparator(),
+		widget.NewCard("Template", "", templateSelect),
 	)
-
-	// Show Dialog
-	dialog.ShowCustomConfirm("Workout Settings", "Save", "Cancel", form, func(b bool) {
-		if b {
+	d := dialog.NewCustomConfirm("Workout Settings", "Save", "Cancel",
+		container.NewScroll(content),
+		func(b bool) {
+			if !b {
+				return
+			}
 			if d, err := strconv.ParseFloat(durationEntry.Text, 64); err == nil {
 				viper.Set("workout.duration", d)
 			}
 			viper.Set("workout.type", typeSelect.Selected)
 			viper.Set("workout.area", areaSelect.Selected)
 			viper.Set("workout.level", levelSelect.Selected)
-			viper.Set("workout.equipment", equipmentSelect.Selected)
+			viper.Set("workout.equipment", equipmentCheck.Selected)
 			viper.Set("workout.template", templateSelect.Selected)
-
 			glob.Conf_Write()
-		}
-	}, w)
+		}, w)
+	d.Show()
+	d.Resize(fyne.NewSize(640, 560))
 }
